@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper:     #fcfaf6;
+  --surface:   #ffffff;
+  --tint:      #f4f0e8;
+  --tint-deep: #ece9e2;
+  --line:      #e5e0d6;
+  --ink:       #1c1c1f;
+  --ink-soft:  #736f66;
+  --ink-faint: #9e9c96;
+  --ink-micro: #6b6661;
+  --chip-bg:   #eceae6;
+  --chip-text: #5c5954;
+  --blue:      #3478f6;
+  --blue-tint: #e1ebfe;
+  --green:     #27ae60;
+  --red:       #e53e32;
+  --red-tint:  #ffeae7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    system-ui, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
 }
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  text-align: inherit;
+}
+
+/* Values under test always wrap; they are never clipped. */
+.wrapvalue {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+  min-width: 0;
+}
+
+/* ---- Phone shell ------------------------------------------------------ */
+
+.shell-outer {
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--paper);
+}
+
+.shell-frame {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 431px) {
+  .shell-outer {
+    align-items: center;
+    padding: 24px 0;
+    background: var(--tint-deep);
+  }
+  .shell-frame {
+    width: 393px;
+    height: 852px;
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+  }
+}
+
+.safe-bottom {
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-panel,
+  .sheet-scrim {
+    animation: none !important;
+  }
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes scrim-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.sheet-panel { animation: sheet-up 180ms ease-out; }
+.sheet-scrim { animation: scrim-in 180ms ease-out; }
