@@ -36,9 +36,14 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-button {
-  font: inherit;
-  text-align: inherit;
+/* Must stay inside @layer base. Unlayered rules outrank everything Tailwind puts
+   in @layer utilities, so an unlayered `button { font: inherit }` silently strips
+   font-size and font-weight from every button in the app. */
+@layer base {
+  button {
+    font: inherit;
+    text-align: inherit;
+  }
 }
 
 /* Values under test always wrap; they are never clipped. */

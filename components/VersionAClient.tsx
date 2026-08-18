@@ -14,7 +14,7 @@ import { ITEMS, RECORD, type ItemKey, type SpecItem } from '@/lib/record'
 import { useRun } from '@/lib/state'
 
 export default function VersionAClient({ proofSrc }: { proofSrc: string | null }) {
-  const { run, setMark, approve, correct, reset, checked, remaining, flagged, allChecked } =
+  const { run, ready, setMark, approve, correct, reset, checked, remaining, flagged, allChecked } =
     useRun('a')
   const [expanded, setExpanded] = useState<ItemKey | null>(null)
   const [flagging, setFlagging] = useState<SpecItem | null>(null)
@@ -22,13 +22,21 @@ export default function VersionAClient({ proofSrc }: { proofSrc: string | null }
 
   const locked = run.outcome !== 'open'
 
+  // Hold the first paint until localStorage has been read, so a restored run never
+  // flashes as unchecked. Identical to /b — the versions must not differ here.
+  if (!ready) return <PhoneShell />
+
   return (
     <PhoneShell>
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2">
         <Link href="/" className="shrink-0 text-[17px] text-[var(--blue)]">
           ‹ Records
         </Link>
-        <p className="wrapvalue text-center text-[17px] font-semibold text-[var(--ink)]">
+        {/* 16px, not the 17px of §7.2, so the nav title is identical to Version B's.
+            §0 rule 1 — the versions may differ only in interaction — outranks the
+            per-screen typography spec, and at 393px the longer `v3 · current` pill
+            wrapped a 17px title onto two lines. */}
+        <p className="wrapvalue text-center text-[16px] font-semibold text-[var(--ink)]">
           {RECORD.name}
         </p>
         <VersionPill version={run.specVersion} onClick={() => setShowHistory(true)} />
@@ -69,7 +77,7 @@ export default function VersionAClient({ proofSrc }: { proofSrc: string | null }
           <OutcomePanel run={run} onReset={reset} />
         ) : !allChecked ? (
           <>
-            <ActionButton variant="disabled">Approve V{run.specVersion} for production</ActionButton>
+            <ActionButton variant="disabled">Approve v{run.specVersion} for production</ActionButton>
             <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
               {remaining} item{remaining === 1 ? '' : 's'} still to check · approve unlocks once
               every item has your mark
@@ -78,7 +86,7 @@ export default function VersionAClient({ proofSrc }: { proofSrc: string | null }
         ) : flagged.length === 0 ? (
           <>
             <ActionButton variant="green" onClick={approve}>
-              Approve V{run.specVersion} for production
+              Approve v{run.specVersion} for production
             </ActionButton>
             <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
               Approving binds this run to spec v{run.specVersion} ·{' '}
@@ -90,13 +98,13 @@ export default function VersionAClient({ proofSrc }: { proofSrc: string | null }
           <>
             <div className="w-full rounded-[12px] bg-[var(--red-tint)] px-[14px] py-3">
               <p className="wrapvalue text-[13px] text-[var(--red)]" style={{ lineHeight: '18px' }}>
-                V{run.specVersion} cannot be approved with a flagged item. Correcting the record
-                retires V{run.specVersion} and creates V{run.specVersion + 1} — the correction never
+                v{run.specVersion} cannot be approved with a flagged item. Correcting the record
+                retires v{run.specVersion} and creates v{run.specVersion + 1} — the correction never
                 lives only in chat.
               </p>
             </div>
             <ActionButton variant="blue" onClick={correct}>
-              Correct the record — creates V{run.specVersion + 1}
+              Correct the record — creates v{run.specVersion + 1}
             </ActionButton>
             <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
               Nothing is sent from here — you send the sheet yourself on WhatsApp

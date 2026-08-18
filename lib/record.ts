@@ -16,7 +16,7 @@ export const RECORD = {
   name: 'Luna Necklace Card',
   specVersion: 3,
   savedOn: 'Feb 4',
-  proofLabel: 'Printer render · Feb proof',
+  proofLabel: 'Photo from the printer · February',
   proofReceived: 'received today via WhatsApp',
   quantity: 3000,
   supplierMinimum: 200,
@@ -31,7 +31,7 @@ export const ITEMS: SpecItem[] = [
     recordHint: '43 characters · capitalization counts',
     proof: 'lua craft studio · Hecho a mano en Colombia',
     proofHint: 'Printer render, cropped to the text',
-    question: 'Does the proof match, character for character?',
+    question: 'Does what the printer sent match, character for character?',
     differs: true,
   },
   {
@@ -41,8 +41,8 @@ export const ITEMS: SpecItem[] = [
     record: '9.0 × 5.5 cm',
     recordHint: 'Card face, before rounding',
     proof: '9.0 × 5.0 cm',
-    proofHint: "Dimensions read off the printer's proof",
-    question: 'Does the size on the proof match the record?',
+    proofHint: 'Dimensions read off what the printer sent',
+    question: 'Does the size on what the printer sent match the record?',
     differs: true,
   },
   {
@@ -52,8 +52,8 @@ export const ITEMS: SpecItem[] = [
     record: '300 gsm matte, cream',
     recordHint: 'Card stock weight and tone',
     proof: '300 gsm matte, cream',
-    proofHint: "Material note on the printer's proof",
-    question: 'Does the stock on the proof match the record?',
+    proofHint: 'Material note on what the printer sent',
+    question: 'Does the stock on what the printer sent match the record?',
     differs: false,
   },
   {
@@ -74,7 +74,7 @@ export const ITEMS: SpecItem[] = [
     record: 'Rounded corners, 4 mm radius',
     recordHint: 'All four corners',
     proof: 'Rounded corners, 4 mm radius',
-    proofHint: 'Corner detail cropped from the proof',
+    proofHint: 'Corner detail cropped from what the printer sent',
     question: 'Last item — the summary of all five checks comes next.',
     differs: false,
   },
@@ -108,7 +108,7 @@ export const HISTORY: VersionEntry[] = [
     version: 3,
     created: 'Feb 4',
     status: 'current',
-    note: 'Sent Feb 5 · proof received today · awaiting your check',
+    note: 'Sent Feb 5 · Waiting on your check',
   },
 ]
 
@@ -116,7 +116,7 @@ export const FLAG_CHIPS = [
   'Wrong value',
   'Wrong wording or capitalization',
   'Wrong size',
-  "Can't tell from the proof",
+  "Can't tell from what the printer sent",
 ]
 
 export const itemByKey = (key: ItemKey) => ITEMS.find((i) => i.key === key)!

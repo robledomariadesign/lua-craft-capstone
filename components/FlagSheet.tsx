@@ -20,7 +20,7 @@ export default function FlagSheet({
   return (
     <Sheet
       title={`What's wrong with ${item.title}?`}
-      subtitle={`The printer's proof shows: ${item.proof}`}
+      subtitle={`What the printer sent: ${item.proof}`}
       onClose={onCancel}
     >
       <div className="flex flex-wrap gap-2">

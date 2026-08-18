@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { HISTORY, ITEMS, type ItemKey, type VersionEntry, itemByKey } from './record'
 
 export type Status = 'unchecked' | 'match' | 'flagged'
@@ -55,27 +55,36 @@ export function useRun(version: Version) {
   const [run, setRun] = useState<Run>(seedRun)
   const [ready, setReady] = useState(false)
   const key = KEYS[version]
-  const readyRef = useRef(false)
 
+  // Read first. This effect must be able to run more than once (React StrictMode
+  // double-invokes it in dev) without the write effect below having clobbered the
+  // stored run in between — which is exactly what a ref-based guard did, and why
+  // re-entering /b used to come back empty.
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(key)
+      // Plan §6 requires reading localStorage inside an effect so the server render
+      // and the first client render agree; hydrating during render would reintroduce
+      // the mismatch. The cascading render this warns about is the intended one.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setRun({ ...seedRun(), ...(JSON.parse(raw) as Run) })
     } catch {
       /* corrupt or unavailable storage falls back to seed */
     }
-    readyRef.current = true
     setReady(true)
   }, [key])
 
+  // Write only once `ready` is true as STATE, not as a ref. State flips on the
+  // next render — the same render that carries the hydrated run — so the seed can
+  // never be written over a saved run.
   useEffect(() => {
-    if (!readyRef.current) return
+    if (!ready) return
     try {
       window.localStorage.setItem(key, JSON.stringify(run))
     } catch {
       /* storage full or blocked; the session still works in memory */
     }
-  }, [key, run])
+  }, [key, run, ready])
 
   const log = (r: Run, action: string, item?: ItemKey): Run => ({
     ...r,
@@ -156,6 +165,10 @@ export function useRun(version: Version) {
     })
   }, [])
 
+  // The single source of truth for a reset. seedRun() rebuilds marks (all
+  // unchecked), outcome ('open'), specVersion (3) and a fresh copy of HISTORY —
+  // so the v4 entry disappears and v3 goes back to 'current' in one move. Nothing
+  // derived from a run is stored separately, so nothing else needs clearing.
   const reset = useCallback(() => {
     try {
       window.localStorage.removeItem(key)

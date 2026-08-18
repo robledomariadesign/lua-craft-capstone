@@ -9,11 +9,12 @@ export default function Home() {
 
   return (
     <main className="mx-auto flex min-h-[100dvh] w-full max-w-[34rem] flex-col gap-6 px-5 py-10">
-      <h1 className="text-[28px] font-bold text-[var(--ink)]">Lua Craft · Proof approval</h1>
+      <h1 className="text-[28px] font-bold text-[var(--ink)]">Lua Craft · Printer check</h1>
 
       <p className="wrapvalue text-[16px] leading-[24px] text-[var(--ink-soft)]">
-        The Luna Necklace card, spec v3, saved Feb 4. The printer sent back the February proof
-        today over WhatsApp. Both versions start from this same record and the same proof.
+        The Luna Necklace card, spec v3, saved Feb 4. The printer sent back the February card
+        today over WhatsApp. Both versions start from this same record and the same photo
+        from the printer.
       </p>
 
       <div className="flex flex-col gap-3 sm:flex-row">
@@ -25,7 +26,7 @@ export default function Home() {
             Version A · Side-by-side
           </span>
           <span className="text-[13px] text-[var(--ink-soft)]">
-            The whole record and the proof on one screen. Check in any order.
+            The whole record and what the printer sent on one screen. Check in any order.
           </span>
         </Link>
 

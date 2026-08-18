@@ -10,11 +10,13 @@ function Well({ big, src }: { big?: boolean; src: string | null }) {
       style={{ padding: big ? '120px 0' : '44px 0' }}
     >
       {/* Swappable: drop a real proof at /public/proof.png and it takes over. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       {src ? (
+        // A research prototype swaps this file by hand; next/image would add a
+        // build step for no benefit.
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
-          alt="Printer's proof"
+          alt="What the printer sent"
           className="absolute inset-0 h-full w-full object-contain"
         />
       ) : (
@@ -23,7 +25,7 @@ function Well({ big, src }: { big?: boolean; src: string | null }) {
             className="text-[12px] font-semibold text-[var(--ink-faint)]"
             style={{ letterSpacing: '1px' }}
           >
-            PRINTER&rsquo;S PROOF
+            WHAT THE PRINTER SENT
           </p>
           <p className="text-[13px] text-[var(--ink-soft)]">{RECORD.proofReceived}</p>
         </>

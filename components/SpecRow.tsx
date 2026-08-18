@@ -59,7 +59,7 @@ export default function SpecRow({
             className="text-[10px] font-semibold text-[var(--ink-micro)]"
             style={{ letterSpacing: '.8px' }}
           >
-            PROOF SHOWS
+            THE PRINTER SENT
           </span>
           <span className="wrapvalue block text-[14px] font-medium text-[var(--ink)]">
             {item.proof}

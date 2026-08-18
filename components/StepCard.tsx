@@ -27,7 +27,7 @@ export default function StepCard({ item, version }: { item: SpecItem; version: n
           className="text-[10px] font-semibold text-[var(--ink-soft)]"
           style={{ letterSpacing: '.8px' }}
         >
-          THE PRINTER&rsquo;S PROOF SHOWS
+          WHAT THE PRINTER SENT
         </p>
         <p
           className="wrapvalue text-[19px] font-medium text-[var(--ink)]"
