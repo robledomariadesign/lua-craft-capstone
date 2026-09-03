@@ -1,0 +1,115 @@
+import { useState } from 'react'
+import type { SpecItem } from '@/lib/remix/record'
+import type { Mark } from '@/lib/remix/state'
+import RecordCard from './RecordCard'
+import ActionButton from './ActionButton'
+
+interface ItemRowProps {
+  item: SpecItem
+  mark: Mark
+  onMark: (itemKey: string, status: 'match' | 'flagged', reason?: string) => void
+  onFlag: (item: SpecItem) => void
+  expanded: boolean
+  onExpand: (expand: boolean) => void
+}
+
+const statusChipStyles = {
+  unchecked: 'bg-[var(--chip-bg)] text-[var(--chip-text)]',
+  match: 'bg-[var(--green)] text-[var(--surface)]',
+  flagged: 'bg-[var(--red)] text-[var(--surface)]',
+}
+
+export default function ItemRow({
+  item,
+  mark,
+  onMark,
+  onFlag,
+  expanded,
+  onExpand,
+}: ItemRowProps) {
+  const [editingReason, setEditingReason] = useState(mark.reason || '')
+
+  const statusLabel =
+    mark.status === 'match' ? '✓ Match' : mark.status === 'flagged' ? '⚑ Flagged' : 'Check'
+
+  const chipClass = statusChipStyles[mark.status]
+
+  if (!expanded) {
+    // Resting state
+    return (
+      <button
+        type="button"
+        onClick={() => onExpand(true)}
+        className="flex items-center gap-2 w-full min-h-[68px] rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-left hover:bg-[var(--tint)] transition-colors"
+      >
+        <div className="flex-1">
+          <div className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</div>
+          <div className="text-[13px] text-[var(--ink-soft)] mt-0.5 truncate">
+            {item.value ? item.value.substring(0, 40) : '(no value)'}
+            {item.value && item.value.length > 40 ? '…' : ''}
+          </div>
+        </div>
+        <div
+          className={`shrink-0 px-3 py-1.5 rounded-[12px] text-[12px] font-semibold ${chipClass}`}
+        >
+          {statusLabel}
+        </div>
+      </button>
+    )
+  }
+
+  // Expanded state
+  return (
+    <div className="w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-4 space-y-3">
+      {/* Header */}
+      <button
+        type="button"
+        onClick={() => onExpand(false)}
+        className="text-[14px] font-semibold text-[var(--blue)] mb-2"
+      >
+        ‹ Back
+      </button>
+
+      {/* Label and question */}
+      <div>
+        <h3 className="text-[18px] font-bold text-[var(--ink)]">{item.label}</h3>
+        <p className="text-[14px] text-[var(--ink-soft)] mt-1">{item.question}</p>
+      </div>
+
+      {/* Value card */}
+      <RecordCard item={item} />
+
+      {/* If already marked, show the reason */}
+      {mark.status !== 'unchecked' && mark.reason && (
+        <div className="rounded-[12px] border border-[var(--line)] bg-[var(--tint)] p-3">
+          <div className="text-[12px] font-semibold text-[var(--ink-soft)] mb-1">YOUR NOTE</div>
+          <div className="text-[14px] text-[var(--ink)] break-words">{mark.reason}</div>
+        </div>
+      )}
+
+      {/* Action buttons */}
+      <div className="flex gap-2 pt-2">
+        <button
+          type="button"
+          onClick={() => {
+            setEditingReason('')
+            onFlag(item)
+          }}
+          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red)] font-semibold text-[14px]"
+        >
+          Flag · say why
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            onMark(item.key, 'match')
+            onExpand(false)
+          }}
+          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-semibold text-[14px]"
+        >
+          Match
+        </button>
+      </div>
+    </div>
+  )
+}
