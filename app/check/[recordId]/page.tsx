@@ -68,7 +68,7 @@ export default function CheckPage() {
       <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
         {/* Ficha viewer */}
         <div className="shrink-0 px-4 pt-4 pb-2">
-          <FichaViewer pdfPath="/ficha-op3338.pdf" />
+          <FichaViewer />
         </div>
 
         {/* Item list header */}
