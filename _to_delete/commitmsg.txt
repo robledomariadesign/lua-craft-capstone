@@ -1,0 +1,38 @@
+Rename proof copy, fix B's reset and persistence, unlayer button typography
+
+The word "proof" is gone from the UI - participants and the instructor both
+asked "proof of what?". Every surface now reads "what the printer sent".
+Variable names (proof, ProofWell, lua.proof.*.v1) are unchanged; they never
+surface.
+
+- Version numbers read as version numbers: lowercase v3/v4 in sentence-case
+  text and buttons, caps retained in all-caps eyebrows.
+- Version B's step is now derived from the marks rather than held as separate
+  component state, so Start Over lands on step 1 and can no longer leave an
+  ungated Approve on screen. The summary action bar is additionally gated on
+  allChecked.
+- Version B's progress survives leaving. The hydrate effect's ref guard let the
+  persist effect run in the same commit and write the seed over the saved run;
+  the guard is now `ready` as state, which flips on the render carrying the
+  hydrated run.
+- Version B's nav matches Version A: the 1/5 counter is gone.
+
+Closes the four items left open for the designer in
+BUILD_CHANGES_2026-08-18.md:
+
+- globals.css: `button { font: inherit }` moved inside @layer base, so it no
+  longer outranks every Tailwind utility in @layer utilities.
+- Version A's nav title drops 17px to 16px to match Version B (rule 0.1 over
+  7.2); at 393px the longer `v3 . current` pill wrapped a 17px title.
+- The react-hooks/set-state-in-effect suppression is narrowed to the single
+  localStorage hydration line, citing plan section 6.
+- The @next/next/no-img-element suppression in ProofWell.tsx moved onto the
+  <img> it actually covers.
+
+Also tracks components/ResultRow.tsx, which app/b/page.tsx already imported but
+which had never been added.
+
+Production build compiles clean; eslint reports no problems.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01X7HhGbYwmwTNCvC2hjCbwn
