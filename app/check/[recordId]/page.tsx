@@ -26,11 +26,9 @@ export default function CheckPage() {
       </PhoneShell>
     )
   }
-
-  const itemKeys = record.items.map((i) => i.key)
   const { run, ready, setMark, approve, correct, remaining, flagged, allChecked } = useRun(
     recordId,
-    itemKeys,
+    record.items,
     record.specVersion
   )
 
@@ -40,7 +38,7 @@ export default function CheckPage() {
   const expandedItem = record.items.find((i) => i.key === expandedItemKey)
 
   // Count confirmed marks
-  const confirmed = itemKeys.filter((k) => run.marks[k].status !== 'unchecked').length
+  const confirmed = record.items.filter((i) => run.marks[i.key].status !== 'unchecked').length
 
   if (!ready) {
     return <PhoneShell />
@@ -67,7 +65,7 @@ export default function CheckPage() {
       {/* Main scroll area */}
       <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
         {/* Ficha viewer */}
-        <div className="shrink-0 px-4 pt-4 pb-2">
+        <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
           <FichaViewer />
         </div>
 
@@ -81,11 +79,11 @@ export default function CheckPage() {
               {record.name}
             </p>
           </div>
-          <CoverageCounter confirmed={confirmed} total={itemKeys.length} />
+          <CoverageCounter confirmed={confirmed} total={record.items.length} />
         </div>
 
         {/* Item list */}
-        <div className="flex-1 px-4 pb-4 space-y-2 overflow-y-auto">
+        <div className="flex-1 px-4 pb-4 space-y-2">
           {record.items.map((item) => (
             <ItemRow
               key={item.key}

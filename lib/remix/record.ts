@@ -164,8 +164,8 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
   }
 }
 
-export const REF1: PackagingRecord = createRecord('ref1', 'Lua Necklace Card', 'REF 1', '11 × 10,8 cm')
-export const REF2: PackagingRecord = createRecord('ref2', 'Lua Ring Card', 'REF 2', '5 × 4 cm')
-export const REF3: PackagingRecord = createRecord('ref3', 'Lua Bracelet Card', 'REF 3', '9 × 5 cm')
+export const REF1: PackagingRecord = createRecord('ref1', 'Necklace card', 'REF 1', '11 × 10,8 cm')
+export const REF2: PackagingRecord = createRecord('ref2', 'Short earring card', 'REF 2', '5 × 4 cm')
+export const REF3: PackagingRecord = createRecord('ref3', 'Long earring card', 'REF 3', '9 × 5 cm')
 
 export const RECORDS = [REF1, REF2, REF3]

@@ -17,7 +17,7 @@ export default function FlagSheet({
   onSave,
 }: FlagSheetProps) {
   const [reason, setReason] = useState(existingReason)
-  const isValid = reason.trim().length >= 3
+  const isValid = reason.trim().length >= 1
 
   return (
     <Sheet onDismiss={onCancel}>
@@ -38,7 +38,7 @@ export default function FlagSheet({
       />
 
       <div className="text-[12px] text-[var(--ink-soft)]">
-        {reason.length} characters · minimum 3
+        {reason.length} characters · minimum 1
       </div>
 
       <ActionButton

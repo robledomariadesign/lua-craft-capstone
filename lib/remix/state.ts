@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import type { RecordId } from './record'
+import type { RecordId, SpecItem } from './record'
 
 export type { RecordId }
 
@@ -49,15 +49,16 @@ function seedRun(recordId: RecordId, itemKeys: string[], specVersion: number): R
   return run
 }
 
-export function useRun(recordId: RecordId, itemKeys: string[], specVersion: number) {
+export function useRun(recordId: RecordId, items: SpecItem[], specVersion: number) {
   const [run, setRun] = useState<Run | null>(null)
   const [ready, setReady] = useState(false)
 
   // Memoize the storage key so it doesn't change on every render
   const storageKey = useMemo(() => `lua.remix.${recordId}.v1`, [recordId])
+  const itemKeys = useMemo(() => items.map((i) => i.key), [items])
   const initialRun = useMemo(() => seedRun(recordId, itemKeys, specVersion), [recordId, itemKeys, specVersion])
 
-  // Hydrate from localStorage once on mount
+  // Hydrate from localStorage on mount only
   useEffect(() => {
     const stored = localStorage.getItem(storageKey)
     if (stored) {
@@ -70,14 +71,14 @@ export function useRun(recordId: RecordId, itemKeys: string[], specVersion: numb
       setRun(initialRun)
     }
     setReady(true)
-  }, [])
+  }, [recordId])
 
-  // Persist to localStorage when run changes
+  // Persist to localStorage when run changes (only after hydration)
   useEffect(() => {
     if (ready && run) {
       localStorage.setItem(storageKey, JSON.stringify(run))
     }
-  }, [run, storageKey, ready])
+  }, [run, ready, storageKey])
 
   const setMark = useCallback((itemKey: string, status: Status, reason?: string) => {
     setRun((prev) => {

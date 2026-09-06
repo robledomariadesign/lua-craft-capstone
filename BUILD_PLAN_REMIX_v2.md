@@ -11,7 +11,7 @@
 | Core screen | Check — the record against the ficha técnica |
 | Stack | Next.js (App Router) · TypeScript · Tailwind · Vercel |
 | Repo | `lua-craft-capstone` — no new project, no new URL |
-| Supersedes | `claude/BUILD_PLAN_A-B_Proof_Approval.md`, which stays in the repo unchanged |
+| Supersedes | `BUILD_PLAN_A-B_Proof_Approval.md`, which stays in the repo unchanged |
 | Parent decision | Linear `ROB-12` |
 
 ---
@@ -34,7 +34,23 @@
 > 4. **No record edit.** §11.2 does not apply and `RecordEditSheet.tsx` is not built.
 >    The record-edit entry point is omitted from §8.1's record screen. `markedAgainstVersion`
 >    is no longer load-bearing but may stay — it costs nothing and keeps the export honest.
-
+>
+> 5. **The ficha has six pages, not five.** §4, §4.1, §17 row 3 and §13's file
+>    listing say five. Page 6 is `PROCESOS ADICIONALES · RESERVA UV / METALIZADO`
+>    and carries the Dorado spec, without which the Processes item cannot be
+>    judged. The strip shows six thumbnails. §13's `ficha-op3338-p1..p5.png` is
+>    `ficha-op3338-p1..p6.jpg` plus `-thumb` variants, committed rather than
+>    generated; `pdfjs-dist` is not a dependency. `public/ficha-op3338.pdf` is
+>    unchanged and §15's byte-identical box still holds.
+>
+> 6. **The record context screen ships; record editing does not.** ROB-15 is built
+>    as a new screen between §8 and §9. Entered from a record on Screen 1, it lists
+>    that record's six values and carries one action into the check. It states what
+>    the record holds; it does not show the ficha's values beside them, because
+>    rendering both makes the app the comparer (§0 rule 1). No edit, add or delete
+>    affordance appears — absent, not disabled, per §4.1. Amendment 4 is unchanged.
+>    The collections index above §8's Fluir screen is drawn for review, not built
+>    this phase.
 ---
 
 ## 0. Read this first — the guardrail
@@ -461,11 +477,16 @@ Every mark stores `markedAgainstVersion`. This is what lets the summary and the 
 
 Version B's terminal screen, computed from the marks. **The handoff is not a fourth screen.** Both participants hit "what happens next" precisely at the summary, and the answer to that question *is* the share step, so it belongs here (`ROB-13`).
 
+**Amendment 6 note:** the summary is a screen reached from the check screen's
+bottom action, not an overlay panel. `ROB-19` required the outcome be dismissible
+so the item list could be re-read; back navigation to the check satisfies that.
+§13's `check/[recordId]/page.tsx  Screen 2 + Screen 3` splits — Screen 3 becomes
+`summary/[recordId]/page.tsx`.
+
 ### 10.1 The summary
 
-- Headline computed from the marks — matched / n flagged. Never a completion verdict (§0 rule 2).
+- Headline reads `N of N confirmed`, derived from `record.items.length`, with the flagged and matching counts on the line below. Never a completion verdict (§0 rule 2).
 - One row per item: name and outcome. A flagged row shows `⚑ Flagged` **plus the participant's reason** — never `⚑ Flagged · {some value the app claims the printer sent}` (`ROB-16`).
-- Not-recorded items appear as their own line, named as such.
 - **Rows re-open** into the same expanded state as the check screen, read and edit without re-entry, and close back to the summary (`ROB-14`).
 
 ### 10.2 The outcome panel
@@ -575,6 +596,22 @@ Each entry shows: version, lifecycle state, created date, the approval line, and
 
 ---
 
+### 12.x Strings decided 4 Sep — use as written
+
+| Screen | String |
+|---|---|
+| Record context · action | Compare for production |
+| Check · bottom action | See summary |
+| Check · ficha panel | Upload New · Tap to zoom |
+| Summary · headline | N of N confirmed |
+| Summary · state words | Flagged · Matching |
+| Summary · primary action | Save summary to send |
+| Summary · secondary | Back to records |
+
+"Correct the record" is retired. Nothing in the review flow changes the version number.
+
+---
+
 ## 13. File layout
 
 ```
@@ -583,28 +620,27 @@ app/
   globals.css             §5 tokens · button rule inside @layer base
   page.tsx                Screen 1 — Record (the remix home route)
   check/[recordId]/page.tsx   Screen 2 + Screen 3
+  record/[recordId]/page.tsx  Record context screen · Amendment 6
   a/page.tsx              frozen — do not touch
   b/page.tsx              frozen — do not touch
-components/
-  PhoneShell.tsx
+components/remix/          Amendment 1 · unprefixed originals belong to /a and /b — do not modify  PhoneShell.tsx
   FichaViewer.tsx         pinned page + page strip + zoom overlay
-  ItemRow.tsx             resting · expanded · marked · not-recorded
+  ItemRow.tsx              resting · expanded · marked
   RecordCard.tsx          renders a value by ItemType
   CoverageCounter.tsx
   Sheet.tsx               shared overlay shell
   FlagSheet.tsx
-  RecordEditSheet.tsx
   HistorySheet.tsx
   OutcomePanel.tsx        dismissible
   ExportSheet.tsx         PDF + copy print text
   ActionButton.tsx
-lib/
-  record.ts               §3 — three records, the only place content lives
+lib/remix/                 Amendment 1 · unprefixed originals belong to /a and /b — do not modify
+  record.ts                §3 — three records, the only place content lives
   state.ts                §7
   pdf.ts                  text-based generation only
 public/
   ficha-op3338.pdf        the real file, unmodified
-  ficha-op3338-p1..p5.png page images for the viewer
+  ficha-op3338-p1..p6.jpg  six pages + -thumb variants · Amendment 5
 ```
 
 `/a` and `/b` stay live and frozen. They are the research artifact behind `ROB-12`'s decision; deleting them erases the evidence trail.
@@ -687,7 +723,7 @@ Run this on a real phone before booking a participant.
 **Device**
 
 - [ ] Opens on a phone that is not yours, on cellular data, from a cold link
-- [ ] Nothing clipped at 320px; no horizontal scroll anywhere
+- [ ] Nothing clipped at 320px; no horizontal scroll on the page (the ficha page strip may scroll)
 - [ ] Action bar clears the home bar
 - [ ] No console errors, no hydration warning
 - [ ] `/a` and `/b` still load, unchanged, from the footer note
@@ -705,14 +741,15 @@ Run this on a real phone before booking a participant.
 
 **Order — core screen first, then outward along the flow map:**
 
-1. `lib/record.ts` and `app/globals.css` — the seed and the tokens
+1. `lib/remix/record.ts` and `app/globals.css` — the seed and the tokens
 2. `PhoneShell`, `Sheet`, `ActionButton`, `RecordCard`
-3. **Screen 2, the check** — `FichaViewer`, `ItemRow`, `CoverageCounter`, `FlagSheet`. This is the critical job. It works before anything else is built.
-4. **Screen 3, summary and handoff** — `OutcomePanel` (dismissible), `ExportSheet`, `lib/pdf.ts`
-5. **Screen 1, the record** — the entry point, the lists, the jewelry records
-6. `HistorySheet` and `RecordEditSheet`
-7. The footer note to `/a` and `/b`
-8. Walk §15 and report which boxes fail
+3. **Screen 2, the check** — built. Open fixes: ficha must shrink not scroll away when a row expands (§4.1); flag-reason minimum is one non-whitespace character.
+4. **Screen 3, summary and handoff** — `OutcomePanel` (dismissible), `ExportSheet`, `lib/pdf.ts`. The check screen's bottom action reads **See summary** and navigates here. Nothing in the review flow changes the version number.
+5. **Record context screen** — per Amendment 6, between Screen 1 and the check
+6. **Screen 1, the record** — the entry point, the lists, the jewelry records
+7. `HistorySheet`
+8. The footer note to `/a` and `/b`
+9. Walk §15 and report which boxes fail
 
 **Rough visuals are fine. Dead ends are not.** The brief's words: *"when I say real I don't mean production ready, I mean clickable all the way through."*
 
@@ -754,17 +791,17 @@ ROB-18's full candidate list runs to eleven. Six ship. The cut, recorded per `RO
 
 ### Needs Luisa's confirmation before the next session
 
-The ficha is the claim; the record is the authority. Right now only the claim exists in writing. These values are seeded so the build is clickable, and every one is marked `// CONFIRM` in `lib/record.ts`:
+The ficha is the claim; the record is the authority. Right now only the claim exists in writing. These values are seeded so the build is clickable, and every one is marked `// CONFIRM` in `lib/remix/record.ts`:
 
 | Value | Seeded as | Status |
 |---|---|---|
 | Print text — tagline | `Crafted to be loved in Colombia` | Confirmed in the brief |
 | Print text — wordmark | `Lua Craft STUDIO` | Confirmed in the brief · correct lockup for packaging |
-| Dimensions, all three references | The ficha's own measurements | **Assumed correct — confirm.** If her record says something different, that is a second real error and it changes the study |
+| Dimensions, all three references | REF 1 `11 × 10,8 cm` · REF 2 `5 × 4 cm` · REF 3 `9 × 5 cm` | **Confirmed 3 Sep.** Luisa designed REF 1 at 11 × 14; the printer could not produce it, sent a corrected image over WhatsApp, and she approved before the PDF was cut. Not a second error. See `ROB-24` |
 | Images | `High-resolution artwork, applied to the outer face` | **Provisional wording — confirm** |
 | Processes | The ficha's five yes/no answers | **Assumed correct — confirm** |
 | Quantity | `3000 units` per reference | Correct under the three-record model (§2) |
-| Material & coating | **`not recorded`** | **This is a claim about her record, not about the ficha.** It asserts that the printer proposed `Cartón blanco 0.56 · Mate` and it was accepted without being written down. Plausible for a first order and it is the seeded instance of the third state — but confirm it, and if it is wrong, move the state to whichever field her record genuinely lacks. It is one line in the seed |
+| Material & coating | `Cartón blanco 0.56 · Mate` | Seeded under Amendment 3. Matches the ficha — neutral, neither error nor trap |
 | Version history dates | Carried from the A/B fixture — v1 12 Jan, v2 20 Jan approved 29 Jan, v3 4 Feb | Synthetic. Kept so the research tasks keep the same right answer for P3 |
 
 ### Figma
@@ -808,8 +845,32 @@ Confirm the map reflects the three-screen remix before it goes into the findings
 
 ## 20. Paste this into Claude Code
 
-> Read `BUILD_PLAN_REMIX_v2.md` in full before writing anything. Build exactly what §8–§11 specify and nothing from §14. Order per §16: `lib/record.ts` and `app/globals.css`, then the shell, then **Screen 2 — the check screen — working end to end before anything else exists.** Copy: use only the strings marked [carried] in §12; everywhere else follow the rules in §12 and ask me for the wording rather than inventing it. There is no `proof` field, no `differs` boolean, and nothing in the UI may claim to know what the manufacturer sent — if you find yourself needing one, stop and ask. `/a` and `/b` are frozen; do not touch them. When a screen is done, run it at 320 and 393 and show me a screenshot before moving on. Then walk §15 yourself and tell me which boxes fail. If anything in the plan is ambiguous, ask instead of deciding.
+> Read `BUILD_PLAN_REMIX_v2.md` in full, including the amendment block
+> after the title table. The amendments override the sections they name — read
+> them first and apply them everywhere.
+>
+> Build what §8–§11 specify and nothing from §14. Order per §16. Remix files live
+> in `lib/remix/` and `components/remix/` (Amendment 1); the unprefixed files in
+> `lib/` and `components/` belong to the frozen `/a` and `/b` builds and must not
+> be modified, and must never be read as the remix seed.
+>
+> Copy: use only the strings marked [carried] in §12 and the table in §12.x.
+> Everywhere else follow the rules in §12 and ask me for the wording rather than
+> inventing it. If you write a string that is not in this document, say so.
+>
+> There is no `proof` field, no `differs` boolean, and nothing in the UI may claim
+> to know what the manufacturer sent — if you find yourself needing one, stop and ask.
+>
+> `/a` and `/b` are frozen; do not touch them.
+>
+> When a screen is done, run it at 320 and 393 and show me a screenshot before
+> moving on. Then report against §15 box by box in the plan's order — pass, fail,
+> or not tested — no substitutions and no invented list. Nothing is "expected"
+> unless you cite the section that says so.
+>
+> If anything in the plan is ambiguous, ask instead of deciding.
 
 ---
 
-*Written 27 August 2026 against `ROB-23`. Supersedes `claude/BUILD_PLAN_A-B_Proof_Approval.md`, which stays in the repo as the artifact the A/B research ran against.*
+*Written 27 August 2026 against `ROB-23`. Supersedes `BUILD_PLAN_A-B_Proof_Approval.md`, which stays in the repo as the artifact the A/B research ran against.*
+Amended 3–4 September (Amendments 5 and 6; §12.x strings; §13 paths; §15 and §16 corrections).
