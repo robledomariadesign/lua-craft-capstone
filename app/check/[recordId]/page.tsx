@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
@@ -14,6 +14,7 @@ import { useRun, type RecordId } from '@/lib/remix/state'
 
 export default function CheckPage() {
   const params = useParams()
+  const router = useRouter()
   const recordId = params.recordId as RecordId
   const record = RECORDS.find((r) => r.id === recordId)
 
@@ -115,25 +116,19 @@ export default function CheckPage() {
               Mark every item to continue
             </p>
           </>
-        ) : shouldCorrect ? (
+        ) : (
           <>
-            <ActionButton variant="blue" onClick={correct}>
-              Correct the record
+            <ActionButton
+              variant="blue"
+              onClick={() => router.push(`/summary/${recordId}`)}
+            >
+              See summary
             </ActionButton>
             <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
-              {flagged.length} item{flagged.length === 1 ? '' : 's'} flagged
+              {confirmed} confirmed {flagged.length > 0 && `· ${flagged.length} flagged`}
             </p>
           </>
-        ) : canApprove ? (
-          <>
-            <ActionButton variant="green" onClick={approve}>
-              Approve for production
-            </ActionButton>
-            <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
-              All items match
-            </p>
-          </>
-        ) : null}
+        )}
       </div>
 
       {/* Flag sheet */}

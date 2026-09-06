@@ -129,7 +129,6 @@ export function useRun(recordId: RecordId, items: SpecItem[], specVersion: numbe
       return {
         ...prev,
         outcome: 'corrected' as const,
-        specVersion: prev.specVersion + 1,
         events: [
           ...prev.events,
           {
