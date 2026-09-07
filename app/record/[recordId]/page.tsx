@@ -42,10 +42,14 @@ export default function RecordPage() {
         <div className="flex flex-col gap-3 px-4 pt-4 pb-4">
           {/* Timestamp */}
           <p className="text-[11px] font-semibold text-[var(--ink-soft)] uppercase">
-            Last saved {new Date(record.savedOn).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-            }).toLowerCase()}
+            Last saved {(() => {
+              const [year, month, day] = record.savedOn.split('-')
+              const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+              return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+              }).toLowerCase()
+            })()}
           </p>
 
           {/* Items */}

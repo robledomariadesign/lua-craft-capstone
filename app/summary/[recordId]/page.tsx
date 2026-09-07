@@ -13,6 +13,7 @@ export default function SummaryPage() {
   const router = useRouter()
   const recordId = params.recordId as RecordId
   const record = RECORDS.find((r) => r.id === recordId)
+  const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle')
 
   if (!record) {
     return (
@@ -34,9 +35,34 @@ export default function SummaryPage() {
   const matchingItems = record.items.filter((item) => run.marks[item.key].status === 'match')
   const totalConfirmed = flaggedItems.length + matchingItems.length
 
-  const handleSaveSummary = () => {
-    // TODO: Generate and download PDF
-    console.log('Save summary')
+  const handleSaveSummary = async () => {
+    try {
+      const { generatePDF, downloadPDF } = await import('@/lib/remix/pdf')
+      const blob = await generatePDF({
+        record,
+        run,
+        items: record.items,
+      })
+      downloadPDF(blob, `${record.id}-v${run.specVersion}.pdf`)
+    } catch (error) {
+      console.error('Failed to generate PDF:', error)
+    }
+  }
+
+  const handleCopySummary = async () => {
+    try {
+      const { buildSummaryLines } = await import('@/lib/remix/pdf')
+      const lines = buildSummaryLines({
+        record,
+        run,
+        items: record.items,
+      })
+      await navigator.clipboard.writeText(lines.join('\n'))
+      setCopyState('copied')
+      setTimeout(() => setCopyState('idle'), 2000)
+    } catch (error) {
+      console.error('Failed to copy summary:', error)
+    }
   }
 
   return (
@@ -44,7 +70,7 @@ export default function SummaryPage() {
       {/* Nav */}
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push(`/check/${recordId}`)}
           className="shrink-0 text-[16px] font-semibold text-[var(--blue)] cursor-pointer"
         >
           ‹ Check
@@ -82,12 +108,30 @@ export default function SummaryPage() {
                   <p className="text-[10px] font-semibold text-[var(--red)]">⚑ Flagged</p>
                 </div>
               </div>
-              <p className="text-[13px] font-medium text-[var(--ink)]">
-                {item.termEs}: {item.value}
-              </p>
-              <p className="text-[12px] text-[var(--ink-soft)]">
-                {run.marks[item.key].reason}
-              </p>
+              {item.lines && item.lines.length > 0 ? (
+                <>
+                  <p className="text-[13px] font-medium text-[var(--ink)]">Your record:</p>
+                  <div className="space-y-[3px] pl-[12px]">
+                    {item.lines.map((line) => (
+                      <p key={line.label} className="text-[13px] font-medium text-[var(--ink)]">
+                        {line.value}
+                      </p>
+                    ))}
+                  </div>
+                  <p className="text-[12px] text-[var(--ink-soft)] mt-[5px]">
+                    Your note: {run.marks[item.key].reason}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[13px] font-medium text-[var(--ink)]">
+                    Your record: {item.value}
+                  </p>
+                  <p className="text-[12px] text-[var(--ink-soft)]">
+                    Your note: {run.marks[item.key].reason}
+                  </p>
+                </>
+              )}
             </div>
           ))}
 
@@ -97,14 +141,11 @@ export default function SummaryPage() {
               <p className="text-[10px] font-semibold text-[var(--green)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
               </p>
-              <div className="space-y-[8px]">
+              <div className="space-y-[3px]">
                 {matchingItems.map((item) => (
-                  <div key={item.key} className="flex items-center justify-between gap-2">
-                    <p className="text-[12px] font-medium text-[var(--ink)]">
-                      {item.label} / {item.termEs}
-                    </p>
-                    <div className="flex-1 h-px bg-[var(--line)]" />
-                  </div>
+                  <p key={item.key} className="text-[12px] font-medium text-[var(--ink)]">
+                    {item.label}
+                  </p>
                 ))}
               </div>
             </div>
@@ -120,9 +161,17 @@ export default function SummaryPage() {
             PDF with version and date will be created in English and Spanish
           </p>
 
+          {/* Copy button */}
+          <button
+            onClick={handleCopySummary}
+            className="flex items-center justify-center py-[13px] bg-[var(--tint)] text-[var(--ink)] rounded-[14px] text-[15px] font-medium cursor-pointer min-h-[44px]"
+          >
+            {copyState === 'copied' ? 'Copied' : 'Copy summary as text'}
+          </button>
+
           {/* Back to records */}
           <Link
-            href="/"
+            href={`/check/${recordId}`}
             className="flex items-center justify-center py-[13px] border border-[var(--line)] rounded-[14px] text-[15px] font-medium text-[var(--blue)]"
           >
             Back to records
