@@ -8,6 +8,7 @@ export interface SpecItem {
   type: ItemType
   value: string | null
   lines?: { label: string; value: string }[]
+  summary: string          // resting-row sub-line — explicit, not derived by truncation
   hint: string
   question: string
 }
@@ -45,6 +46,7 @@ const PRINT_TEXT: SpecItem = {
     { label: 'Wordmark', value: 'Lua Craft STUDIO' },
     { label: 'Tagline', value: 'Crafted to be loved in Colombia' },
   ],
+  summary: 'Wordmark, tagline',
   hint: 'Exact characters · capitalization counts',
   question: 'Does what the printer sent match character for character?',
 }
@@ -55,23 +57,27 @@ const IMAGES: SpecItem = {
   termEs: 'Imágenes',
   type: 'string',
   value: 'High-resolution artwork, applied to the outer face', // CONFIRM
+  summary: 'High-resolution artwork',
   hint: 'Artwork applied to exterior',
   question: 'Do the images match?',
 }
+
+const PROCESSES_LINES = [
+  { label: 'Corte de material', value: 'Yes' },
+  { label: 'Troquelado', value: 'Yes' },
+  { label: 'Corrugado', value: 'No' },
+  { label: 'Pegado', value: 'No' },
+  { label: 'Dorado', value: 'Yes' },
+]
 
 const PROCESSES: SpecItem = {
   key: 'processes',
   label: 'Processes',
   termEs: 'Procesos',
   type: 'yesno',
-  value: 'yes', // CONFIRM — Marker for yesno type
-  lines: [
-    { label: 'Corte de material', value: 'Yes' },
-    { label: 'Troquelado', value: 'Yes' },
-    { label: 'Corrugado', value: 'No' },
-    { label: 'Pegado', value: 'No' },
-    { label: 'Dorado', value: 'Yes' },
-  ],
+  value: PROCESSES_LINES.map(l => `${l.label}: ${l.value}`).join(' · '), // CONFIRM
+  lines: PROCESSES_LINES,
+  summary: `${PROCESSES_LINES.length} recorded`,
   hint: 'Cutting, die-cutting, and finishing',
   question: 'Are all processes correct?',
 }
@@ -82,6 +88,7 @@ const QUANTITY: SpecItem = {
   termEs: 'Cantidad',
   type: 'measurement',
   value: '3000 units',
+  summary: '3000 units',
   hint: 'Per reference · supplier minimum 200',
   question: 'Is the quantity correct?',
 }
@@ -92,6 +99,7 @@ const MATERIAL_COATING: SpecItem = {
   termEs: 'Material y recubrimiento',
   type: 'string',
   value: 'Cartón blanco 0.56 · Mate', // CONFIRM
+  summary: 'Cartón blanco 0.56 · Mate',
   hint: 'Stock and finish',
   question: 'Is the material and coating correct?',
 }
@@ -108,6 +116,7 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
       termEs: 'Medidas',
       type: 'measurement',
       value: dimensionsValue, // CONFIRM
+      summary: dimensionsValue,
       hint: 'Finished size, flat',
       question: 'Do the dimensions match?',
     },
@@ -117,50 +126,55 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
     MATERIAL_COATING,
   ]
 
+  const history: VersionEntry[] = id === 'ref1'
+    ? [
+        {
+          version: 1,
+          created: '2026-01-12',
+          status: 'retired',
+          origin: 'created',
+          note: 'Initial record created',
+        },
+        {
+          version: 2,
+          created: '2026-01-20',
+          status: 'retired',
+          origin: 'created',
+          approvedBy: 'Luisa',
+          approvedOn: '2026-01-29',
+          note: 'Initial approval',
+        },
+        {
+          version: 3,
+          created: '2026-02-04',
+          status: 'current',
+          origin: 'corrected-from-review',
+          changedItems: ['print-text', 'dimensions'],
+          note: 'Corrected from review',
+        },
+      ]
+    : [
+        {
+          version: 1,
+          created: '2026-01-12',
+          status: 'current',
+          origin: 'created',
+          note: 'Initial record created',
+        },
+      ]
+
+  const current = history.find(h => h.status === 'current')
+  if (!current) throw new Error(`No current version in history for ${id}`)
+
   return {
     id,
     name,
     reference,
     orderNumber: '3338',
-    specVersion: 3,
-    savedOn: '2026-02-04',
+    specVersion: current.version,
+    savedOn: current.created,
     items,
-    history: id === 'ref1'
-      ? [
-          {
-            version: 1,
-            created: '2026-01-12',
-            status: 'retired',
-            origin: 'created',
-            note: 'Initial record created',
-          },
-          {
-            version: 2,
-            created: '2026-01-20',
-            status: 'retired',
-            origin: 'created',
-            approvedBy: 'Luisa',
-            approvedOn: '2026-01-29',
-            note: 'Initial approval',
-          },
-          {
-            version: 3,
-            created: '2026-02-04',
-            status: 'current',
-            origin: 'corrected-from-review',
-            changedItems: ['print-text', 'dimensions'],
-            note: 'Corrected from review',
-          },
-        ]
-      : [
-          {
-            version: 1,
-            created: '2026-01-12',
-            status: 'current',
-            origin: 'created',
-            note: 'Initial record created',
-          },
-        ],
+    history,
   }
 }
 

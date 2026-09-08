@@ -36,24 +36,33 @@ export default function ItemRow({
 
   if (!expanded) {
     // Resting state
+    const isFlagged = mark.status === 'flagged'
     return (
       <button
         type="button"
         onClick={() => onExpand(true)}
-        className="flex items-center gap-2 w-full min-h-[68px] rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-left hover:bg-[var(--tint)] transition-colors"
+        className={`flex flex-col w-full rounded-[12px] bg-[var(--surface)] p-3 text-left hover:bg-[var(--tint)] transition-colors ${
+          isFlagged ? 'border-[1.5px] border-[var(--red)]' : 'border border-[var(--line)]'
+        }`}
       >
-        <div className="flex-1">
-          <div className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</div>
-          <div className="text-[13px] text-[var(--ink-soft)] mt-0.5 truncate">
-            {item.value ? item.value.substring(0, 40) : '(no value)'}
-            {item.value && item.value.length > 40 ? '…' : ''}
+        <div className="flex items-center gap-2 min-h-[44px]">
+          <div className="flex-1">
+            <div className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</div>
+            <div className="text-[13px] text-[var(--ink-soft)] mt-0.5 truncate">
+              {item.summary}
+            </div>
+          </div>
+          <div
+            className={`shrink-0 px-3 py-1.5 rounded-[12px] text-[12px] font-semibold ${chipClass}`}
+          >
+            {statusLabel}
           </div>
         </div>
-        <div
-          className={`shrink-0 px-3 py-1.5 rounded-[12px] text-[12px] font-semibold ${chipClass}`}
-        >
-          {statusLabel}
-        </div>
+        {isFlagged && mark.reason && (
+          <div className="mt-2 rounded-[8px] bg-[var(--red-tint)] p-2 text-[13px] text-[var(--ink)] break-words">
+            {mark.reason}
+          </div>
+        )}
       </button>
     )
   }
