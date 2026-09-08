@@ -67,7 +67,7 @@ export default function CheckPage() {
       <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
         {/* Ficha viewer */}
         <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
-          <FichaViewer />
+          <FichaViewer hidePinnedPage={expandedItemKey !== null} />
         </div>
 
         {/* Item list header */}
