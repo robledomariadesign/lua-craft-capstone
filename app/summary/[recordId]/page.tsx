@@ -27,15 +27,14 @@ export default function SummaryPage() {
 
   const { run, ready } = useRun(recordId, record.items, record.specVersion)
 
-  if (!ready) {
-    return <PhoneShell />
-  }
-
+  // Safe to compute pre-ready (run defaults to the seed), but only rendered
+  // once ready — an un-hydrated run would show a false "0 flagged" beat.
   const flaggedItems = record.items.filter((item) => run.marks[item.key].status === 'flagged')
   const matchingItems = record.items.filter((item) => run.marks[item.key].status === 'match')
   const totalConfirmed = flaggedItems.length + matchingItems.length
 
   const handleSaveSummary = async () => {
+    if (!ready) return
     try {
       const { generatePDF, downloadPDF } = await import('@/lib/remix/pdf')
       const blob = await generatePDF({
@@ -50,6 +49,7 @@ export default function SummaryPage() {
   }
 
   const handleCopySummary = async () => {
+    if (!ready) return
     try {
       const { buildSummaryLines } = await import('@/lib/remix/pdf')
       const lines = buildSummaryLines({
@@ -79,7 +79,7 @@ export default function SummaryPage() {
           Summary
         </p>
         <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
-          v{run.specVersion}
+          v{record.specVersion}
         </div>
       </div>
 
@@ -92,12 +92,17 @@ export default function SummaryPage() {
           </p>
 
           {/* Headline */}
-          <p className="text-[24px] font-bold text-[var(--ink)]">
-            {totalConfirmed} of {record.items.length} confirmed
-          </p>
+          {ready ? (
+            <p className="text-[24px] font-bold text-[var(--ink)]">
+              {totalConfirmed} of {record.items.length} confirmed
+            </p>
+          ) : (
+            <div className="w-[220px] h-[29px] rounded-[4px] bg-[var(--tint-deep)]" />
+          )}
 
-          {/* Flagged items */}
-          {flaggedItems.map((item) => (
+          {/* Flagged items — count is unknown pre-hydration, so nothing
+              renders here until ready rather than guessing a footprint */}
+          {ready && flaggedItems.map((item) => (
             <div
               key={item.key}
               className="bg-[var(--surface)] border-[1.5px] border-[var(--red)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
@@ -136,7 +141,7 @@ export default function SummaryPage() {
           ))}
 
           {/* Matching items */}
-          {matchingItems.length > 0 && (
+          {ready && matchingItems.length > 0 && (
             <div className="bg-[color-mix(in_srgb,var(--green)_15%,var(--surface))] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
               <p className="text-[10px] font-semibold text-[var(--green)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
@@ -152,7 +157,7 @@ export default function SummaryPage() {
           )}
 
           {/* Save button */}
-          <ActionButton variant="blue" onClick={handleSaveSummary}>
+          <ActionButton variant={ready ? 'blue' : 'disabled'} onClick={handleSaveSummary}>
             Save summary to send
           </ActionButton>
 
@@ -164,7 +169,12 @@ export default function SummaryPage() {
           {/* Copy button */}
           <button
             onClick={handleCopySummary}
-            className="flex items-center justify-center py-[13px] bg-[var(--tint)] text-[var(--ink)] rounded-[14px] text-[15px] font-medium cursor-pointer min-h-[44px]"
+            disabled={!ready}
+            className={`flex items-center justify-center py-[13px] rounded-[14px] text-[15px] font-medium min-h-[44px] ${
+              ready
+                ? 'bg-[var(--tint)] text-[var(--ink)] cursor-pointer'
+                : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'
+            }`}
           >
             {copyState === 'copied' ? 'Copied' : 'Copy summary as text'}
           </button>

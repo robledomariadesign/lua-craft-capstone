@@ -6,6 +6,7 @@ import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
 import FichaViewer from '@/components/remix/FichaViewer'
 import ItemRow from '@/components/remix/ItemRow'
+import ItemRowPlaceholder from '@/components/remix/ItemRowPlaceholder'
 import CoverageCounter from '@/components/remix/CoverageCounter'
 import FlagSheet from '@/components/remix/FlagSheet'
 import ActionButton from '@/components/remix/ActionButton'
@@ -59,16 +60,13 @@ export default function CheckPage() {
   // A row being open always forces the collapsed state; otherwise scroll decides.
   const isPinnedCollapsed = expandedItemKey !== null || scrollCollapsed
 
-  // Count confirmed marks
+  // Count confirmed marks — safe to compute pre-ready (run defaults to the
+  // seed), but only displayed once ready so a stale/seed count is never shown.
   const confirmed = record.items.filter((i) => run.marks[i.key].status !== 'unchecked').length
-
-  if (!ready) {
-    return <PhoneShell />
-  }
 
   return (
     <PhoneShell>
-      {/* Nav */}
+      {/* Nav — version comes from the record, not the run, so it never waits on hydration */}
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
         <Link href={`/record/${recordId}`} className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
           ‹ Record
@@ -77,13 +75,13 @@ export default function CheckPage() {
           {record.name}
         </p>
         <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
-          v{run.specVersion}
+          v{record.specVersion}
         </div>
       </div>
 
       {/* Main scroll area */}
       <div ref={scrollContainerRef} className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
-        {/* Ficha viewer */}
+        {/* Ficha viewer — no run dependency, renders immediately */}
         <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
           <FichaViewer hidePinnedPage={isPinnedCollapsed} />
         </div>
@@ -98,34 +96,48 @@ export default function CheckPage() {
               {record.name}
             </p>
           </div>
-          <CoverageCounter confirmed={confirmed} total={record.items.length} />
+          {ready ? (
+            <CoverageCounter confirmed={confirmed} total={record.items.length} />
+          ) : (
+            <div className="w-[120px] h-[17px] rounded-[4px] bg-[var(--tint-deep)]" />
+          )}
         </div>
 
-        {/* Item list */}
+        {/* Item list — labels and summaries are record data and render either
+            way; only the status chip waits on the hydrated run */}
         <div className="flex-1 px-4 pb-4 space-y-2">
-          {record.items.map((item) => (
-            <ItemRow
-              key={item.key}
-              item={item}
-              mark={run.marks[item.key]}
-              onMark={(key, status, reason) => {
-                setMark(key, status, reason)
-              }}
-              onFlag={(item) => {
-                setFlaggingItem(item)
-              }}
-              expanded={expandedItemKey === item.key}
-              onExpand={(expand) => {
-                setExpandedItemKey(expand ? item.key : null)
-              }}
-            />
-          ))}
+          {record.items.map((item) =>
+            ready ? (
+              <ItemRow
+                key={item.key}
+                item={item}
+                mark={run.marks[item.key]}
+                onMark={(key, status, reason) => {
+                  setMark(key, status, reason)
+                }}
+                onFlag={(item) => {
+                  setFlaggingItem(item)
+                }}
+                expanded={expandedItemKey === item.key}
+                onExpand={(expand) => {
+                  setExpandedItemKey(expand ? item.key : null)
+                }}
+              />
+            ) : (
+              <ItemRowPlaceholder key={item.key} item={item} />
+            )
+          )}
         </div>
       </div>
 
       {/* Action bar */}
       <div className="safe-bottom flex w-full shrink-0 flex-col gap-2 bg-[var(--surface)] px-4 pt-[10px] border-t border-[var(--line)]">
-        {!allChecked ? (
+        {!ready ? (
+          <>
+            <div className="min-h-[44px] w-full rounded-[14px] bg-[var(--tint-deep)]" />
+            <div className="mx-auto w-[160px] h-[15px] rounded-[4px] bg-[var(--tint-deep)]" />
+          </>
+        ) : !allChecked ? (
           <>
             <ActionButton variant="disabled">
               {remaining} item{remaining === 1 ? '' : 's'} to check
