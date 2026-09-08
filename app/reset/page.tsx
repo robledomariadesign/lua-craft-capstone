@@ -73,7 +73,7 @@ export default function ResetPage() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Reading storage</div>
   }
 
   return (
