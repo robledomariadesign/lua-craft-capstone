@@ -183,3 +183,14 @@ export const REF2: PackagingRecord = createRecord('ref2', 'Short earring card', 
 export const REF3: PackagingRecord = createRecord('ref3', 'Long earring card', 'REF 3', '9 × 5 cm')
 
 export const RECORDS = [REF1, REF2, REF3]
+
+// Display-only — jewelry is not checkable this round (§8.1, §1 row 2 "Jewelry proof review")
+export interface JewelryRecord {
+  id: string
+  name: string
+}
+
+export const JEWELRY_RECORDS: JewelryRecord[] = [
+  { id: 'necklace-1', name: 'Necklace 1' },
+  { id: 'necklace-2', name: 'Necklace 2' },
+]

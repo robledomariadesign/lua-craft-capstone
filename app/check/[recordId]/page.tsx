@@ -74,8 +74,8 @@ export default function CheckPage() {
     <PhoneShell>
       {/* Nav */}
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-        <Link href="/" className="shrink-0 text-[16px] font-semibold text-[var(--blue)]">
-          ‹ Records
+        <Link href={`/record/${recordId}`} className="shrink-0 text-[16px] font-semibold text-[var(--blue)]">
+          ‹ Record
         </Link>
         <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
           {record.name}
