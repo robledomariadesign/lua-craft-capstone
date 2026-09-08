@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Lua Craft · Printer check',
-  description: 'Research prototype — two approaches to the printer check screen.',
+  title: 'Lua Craft Studio - Manufacturer handoff and approval',
+  description: "Element-by-element review of a manufacturer's spec sheet against the studio's own record.",
 }
 
 export const viewport: Viewport = {

@@ -26,7 +26,7 @@ export default function RecordPage() {
     <PhoneShell>
       {/* Nav */}
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-        <Link href="/collection/fluir" className="shrink-0 text-[16px] font-semibold text-[var(--blue)]">
+        <Link href="/collection/fluir" className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
           ‹ Fluir Collection
         </Link>
         <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
@@ -56,7 +56,7 @@ export default function RecordPage() {
           {record.items.map((item) => (
             <div
               key={item.key}
-              className="bg-white border border-[var(--line)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
+              className="bg-[var(--surface)] border border-[var(--line)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
             >
               {/* Header row with label and term */}
               <div className="flex items-center justify-between gap-2">

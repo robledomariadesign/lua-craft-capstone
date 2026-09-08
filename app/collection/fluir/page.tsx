@@ -10,7 +10,7 @@ export default function FluirCollectionPage() {
       <div className="flex flex-col h-full bg-[var(--paper)]">
         {/* Nav */}
         <div className="flex w-full shrink-0 items-center bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-          <Link href="/" className="shrink-0 text-[15px] font-normal text-[var(--blue)]">
+          <Link href="/" className="shrink-0 inline-flex items-center min-h-[44px] text-[15px] font-normal text-[var(--blue)]">
             ‹ Records
           </Link>
           <div className="w-[34px]" />

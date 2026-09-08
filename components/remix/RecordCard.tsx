@@ -19,7 +19,7 @@ export default function RecordCard({ item }: RecordCardProps) {
                 {line.label}
               </div>
               <div
-                className="text-[16px] text-[var(--ink)] select-all break-all"
+                className="text-[16px] text-[var(--ink)] select-all"
                 style={{ wordBreak: 'break-word' }}
               >
                 {line.value}
@@ -29,7 +29,7 @@ export default function RecordCard({ item }: RecordCardProps) {
         </div>
       ) : item.type === 'string' ? (
         <div
-          className="text-[16px] text-[var(--ink)] select-all break-all"
+          className="text-[16px] text-[var(--ink)] select-all"
           style={{ wordBreak: 'break-word' }}
         >
           {item.value}
@@ -42,7 +42,7 @@ export default function RecordCard({ item }: RecordCardProps) {
         <div className="space-y-2">
           {item.lines.map((line) => (
             <div key={line.label} className="flex items-center gap-2">
-              <span className="text-[16px] text-[var(--green)]">
+              <span className={`text-[16px] ${line.value === 'Yes' ? 'text-[var(--green)]' : 'text-[var(--ink-soft)]'}`}>
                 {line.value === 'Yes' ? '✓' : '—'}
               </span>
               <span className="text-[14px] text-[var(--ink)]">

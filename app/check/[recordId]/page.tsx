@@ -56,7 +56,6 @@ export default function CheckPage() {
     return () => container.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const expandedItem = record.items.find((i) => i.key === expandedItemKey)
   // A row being open always forces the collapsed state; otherwise scroll decides.
   const isPinnedCollapsed = expandedItemKey !== null || scrollCollapsed
 
@@ -67,14 +66,11 @@ export default function CheckPage() {
     return <PhoneShell />
   }
 
-  const canApprove = allChecked && flagged.length === 0
-  const shouldCorrect = allChecked && flagged.length > 0
-
   return (
     <PhoneShell>
       {/* Nav */}
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-        <Link href={`/record/${recordId}`} className="shrink-0 text-[16px] font-semibold text-[var(--blue)]">
+        <Link href={`/record/${recordId}`} className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
           ‹ Record
         </Link>
         <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">

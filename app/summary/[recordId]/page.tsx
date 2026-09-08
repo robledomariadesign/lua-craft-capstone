@@ -71,7 +71,7 @@ export default function SummaryPage() {
       <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
         <button
           onClick={() => router.push(`/check/${recordId}`)}
-          className="shrink-0 text-[16px] font-semibold text-[var(--blue)] cursor-pointer"
+          className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)] cursor-pointer"
         >
           ‹ Check
         </button>
@@ -100,7 +100,7 @@ export default function SummaryPage() {
           {flaggedItems.map((item) => (
             <div
               key={item.key}
-              className="bg-white border-[1.5px] border-[var(--red)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
+              className="bg-[var(--surface)] border-[1.5px] border-[var(--red)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
             >
               <div className="flex items-center justify-between gap-2">
                 <p className="text-[13px] font-semibold text-[var(--ink)]">{item.label}</p>
@@ -137,7 +137,7 @@ export default function SummaryPage() {
 
           {/* Matching items */}
           {matchingItems.length > 0 && (
-            <div className="bg-[#e0f4e5] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
+            <div className="bg-[color-mix(in_srgb,var(--green)_15%,var(--surface))] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
               <p className="text-[10px] font-semibold text-[var(--green)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
               </p>
@@ -171,7 +171,7 @@ export default function SummaryPage() {
 
           {/* Back to records */}
           <Link
-            href={`/check/${recordId}`}
+            href="/"
             className="flex items-center justify-center py-[13px] border border-[var(--line)] rounded-[14px] text-[15px] font-medium text-[var(--blue)]"
           >
             Back to records
