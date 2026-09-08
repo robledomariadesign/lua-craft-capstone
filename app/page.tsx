@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
+import ResearchFooter from '@/components/remix/ResearchFooter'
 import { RECORDS } from '@/lib/remix/record'
 
 export default function HomePage() {
@@ -37,19 +38,7 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="safe-bottom shrink-0 px-4 py-4 border-t border-[var(--line)] text-center text-[12px] text-[var(--ink-soft)]">
-          <p>
-            Research versions:{' '}
-            <Link href="/a" className="text-[var(--blue)] underline">
-              A
-            </Link>
-            {' '}/{' '}
-            <Link href="/b" className="text-[var(--blue)] underline">
-              B
-            </Link>
-          </p>
-        </div>
+        <ResearchFooter />
       </div>
     </PhoneShell>
   )

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { RECORDS, type RecordId } from '@/lib/remix/record'
 
@@ -78,6 +79,9 @@ export default function ResetPage() {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'system-ui, sans-serif' }}>
+      <Link href="/" style={{ color: '#2196F3', textDecoration: 'underline', fontSize: '14px', marginBottom: '20px', display: 'block' }}>
+        ‹ Back to records
+      </Link>
       <h1>Reset moderator control</h1>
 
       <section style={{ marginBottom: '30px' }}>
@@ -122,7 +126,7 @@ export default function ResetPage() {
         </button>
       )}
 
-      {clearedCount !== null && (
+      {clearedCount !== null && clearedCount > 0 && (
         <div
           style={{
             padding: '12px',
@@ -135,6 +139,23 @@ export default function ResetPage() {
           <strong>Cleared {clearedCount} localStorage key(s)</strong>
           <div style={{ marginTop: '8px', fontSize: '13px' }}>
             All records reset to 0 items marked. Verify by visiting /check/ref1 or /a or /b.
+          </div>
+        </div>
+      )}
+
+      {clearedCount === 0 && (
+        <div
+          style={{
+            padding: '12px',
+            backgroundColor: '#f5f5f5',
+            border: '1px solid #ddd',
+            borderRadius: '6px',
+            color: '#666',
+          }}
+        >
+          <strong>No keys found</strong>
+          <div style={{ marginTop: '8px', fontSize: '13px' }}>
+            No lua.* keys detected in localStorage. Nothing to clear.
           </div>
         </div>
       )}
