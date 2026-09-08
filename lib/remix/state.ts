@@ -58,16 +58,15 @@ export function useRun(recordId: RecordId, items: SpecItem[], specVersion: numbe
   const itemKeys = useMemo(() => items.map((i) => i.key), [items])
   const initialRun = useMemo(() => seedRun(recordId, itemKeys, specVersion), [recordId, itemKeys, specVersion])
 
-  // Hydrate from localStorage on mount only
+  // Hydrate from localStorage on mount only. getItem lives inside the same
+  // try/catch as JSON.parse — a storage-access failure (e.g. restrictive
+  // private browsing) falls back to the seed run and still reaches
+  // setReady(true), instead of throwing before ready is ever set.
   useEffect(() => {
-    const stored = localStorage.getItem(storageKey)
-    if (stored) {
-      try {
-        setRun(JSON.parse(stored))
-      } catch {
-        setRun(initialRun)
-      }
-    } else {
+    try {
+      const stored = localStorage.getItem(storageKey)
+      setRun(stored ? JSON.parse(stored) : initialRun)
+    } catch {
       setRun(initialRun)
     }
     setReady(true)
