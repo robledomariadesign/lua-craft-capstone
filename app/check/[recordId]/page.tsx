@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
 import FichaViewer from '@/components/remix/FichaViewer'
@@ -35,8 +35,30 @@ export default function CheckPage() {
 
   const [expandedItemKey, setExpandedItemKey] = useState<string | null>(null)
   const [flaggingItem, setFlaggingItem] = useState<SpecItem | null>(null)
+  const [scrollCollapsed, setScrollCollapsed] = useState(false)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  // Collapse/expand the pinned ficha as the user scrolls, with hysteresis so
+  // the collapse-induced layout shift (scroll anchoring) cannot bounce the
+  // state back and forth. Collapse above ~40px, only re-expand below ~8px.
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+    const handleScroll = () => {
+      const scrollTop = container.scrollTop
+      setScrollCollapsed((prev) => {
+        if (scrollTop > 40) return true
+        if (scrollTop < 8) return false
+        return prev
+      })
+    }
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    return () => container.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const expandedItem = record.items.find((i) => i.key === expandedItemKey)
+  // A row being open always forces the collapsed state; otherwise scroll decides.
+  const isPinnedCollapsed = expandedItemKey !== null || scrollCollapsed
 
   // Count confirmed marks
   const confirmed = record.items.filter((i) => run.marks[i.key].status !== 'unchecked').length
@@ -64,10 +86,10 @@ export default function CheckPage() {
       </div>
 
       {/* Main scroll area */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
+      <div ref={scrollContainerRef} className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
         {/* Ficha viewer */}
         <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
-          <FichaViewer hidePinnedPage={expandedItemKey !== null} />
+          <FichaViewer hidePinnedPage={isPinnedCollapsed} />
         </div>
 
         {/* Item list header */}
@@ -140,6 +162,7 @@ export default function CheckPage() {
           onSave={(reason) => {
             setMark(flaggingItem.key, 'flagged', reason)
             setFlaggingItem(null)
+            setExpandedItemKey(null)
           }}
         />
       )}
