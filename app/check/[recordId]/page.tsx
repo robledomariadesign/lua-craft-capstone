@@ -81,52 +81,62 @@ export default function CheckPage() {
 
       {/* Main scroll area */}
       <div ref={scrollContainerRef} className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
-        {/* Ficha viewer — no run dependency, renders immediately */}
-        <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
-          <FichaViewer hidePinnedPage={isPinnedCollapsed} />
-        </div>
-
-        {/* Item list header */}
-        <div className="shrink-0 flex items-center justify-between px-4 pt-3 pb-2">
-          <div>
-            <p className="text-[12px] font-semibold text-[var(--ink-soft)]">
-              {record.reference}
-            </p>
-            <p className="text-[14px] text-[var(--ink)]">
-              {record.name}
-            </p>
+        {/* Scrollable content wrapper. min-height guarantees at least 80px of
+            real scroll range in every state on every device, so collapsing
+            the pinned page can never bring scrollHeight below clientHeight —
+            the browser's scrollTop clamp-to-0 (which defeats the 40/8
+            hysteresis outright, since 0 is under the re-expand threshold)
+            becomes unreachable. Resolves against this flex column's own
+            resolved height, so there is no row/nav/action-bar arithmetic to
+            keep in sync as any of those change. */}
+        <div className="flex flex-col" style={{ minHeight: 'calc(100% + 80px)' }}>
+          {/* Ficha viewer — no run dependency, renders immediately */}
+          <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
+            <FichaViewer hidePinnedPage={isPinnedCollapsed} />
           </div>
-          {ready ? (
-            <CoverageCounter confirmed={confirmed} total={record.items.length} />
-          ) : (
-            <div className="w-[120px] h-[17px] rounded-[4px] bg-[var(--tint-deep)]" />
-          )}
-        </div>
 
-        {/* Item list — labels and summaries are record data and render either
-            way; only the status chip waits on the hydrated run */}
-        <div className="flex-1 px-4 pb-4 space-y-2">
-          {record.items.map((item) =>
-            ready ? (
-              <ItemRow
-                key={item.key}
-                item={item}
-                mark={run.marks[item.key]}
-                onMark={(key, status, reason) => {
-                  setMark(key, status, reason)
-                }}
-                onFlag={(item) => {
-                  setFlaggingItem(item)
-                }}
-                expanded={expandedItemKey === item.key}
-                onExpand={(expand) => {
-                  setExpandedItemKey(expand ? item.key : null)
-                }}
-              />
+          {/* Item list header */}
+          <div className="shrink-0 flex items-center justify-between px-4 pt-3 pb-2">
+            <div>
+              <p className="text-[12px] font-semibold text-[var(--ink-soft)]">
+                {record.reference}
+              </p>
+              <p className="text-[14px] text-[var(--ink)]">
+                {record.name}
+              </p>
+            </div>
+            {ready ? (
+              <CoverageCounter confirmed={confirmed} total={record.items.length} />
             ) : (
-              <ItemRowPlaceholder key={item.key} item={item} />
-            )
-          )}
+              <div className="w-[120px] h-[17px] rounded-[4px] bg-[var(--tint-deep)]" />
+            )}
+          </div>
+
+          {/* Item list — labels and summaries are record data and render either
+              way; only the status chip waits on the hydrated run */}
+          <div className="flex-1 px-4 pb-4 space-y-2">
+            {record.items.map((item) =>
+              ready ? (
+                <ItemRow
+                  key={item.key}
+                  item={item}
+                  mark={run.marks[item.key]}
+                  onMark={(key, status, reason) => {
+                    setMark(key, status, reason)
+                  }}
+                  onFlag={(item) => {
+                    setFlaggingItem(item)
+                  }}
+                  expanded={expandedItemKey === item.key}
+                  onExpand={(expand) => {
+                    setExpandedItemKey(expand ? item.key : null)
+                  }}
+                />
+              ) : (
+                <ItemRowPlaceholder key={item.key} item={item} />
+              )
+            )}
+          </div>
         </div>
       </div>
 
