@@ -41,7 +41,7 @@ export default function ItemRow({
       <button
         type="button"
         onClick={() => onExpand(true)}
-        className={`flex flex-col w-full rounded-[12px] bg-[var(--surface)] p-3 text-left hover:bg-[var(--tint)] transition-colors ${
+        className={`flex flex-col w-full rounded-[12px] bg-[var(--surface)] px-[14px] py-3 text-left hover:bg-[var(--tint)] transition-colors ${
           isFlagged ? 'border-[1.5px] border-[var(--red)]' : 'border border-[var(--line)]'
         }`}
       >
@@ -104,7 +104,7 @@ export default function ItemRow({
             setEditingReason('')
             onFlag(item)
           }}
-          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red)] font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red)] font-semibold text-[14px]"
         >
           Flag · say why
         </button>
@@ -114,7 +114,7 @@ export default function ItemRow({
             onMark(item.key, 'match')
             onExpand(false)
           }}
-          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-semibold text-[14px]"
         >
           Match
         </button>

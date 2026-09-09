@@ -32,7 +32,7 @@ export default function FlagSheet({
       <textarea
         value={reason}
         onChange={(e) => setReason(e.target.value)}
-        placeholder="In your own words, explain what doesn't match…"
+        placeholder="Explain, in your own words, what the manufacturer needs to change"
         className="w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-[14px] text-[var(--ink)] placeholder-[var(--ink-faint)] resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]"
       />
 
@@ -40,7 +40,7 @@ export default function FlagSheet({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
         >
           Cancel
         </button>
@@ -52,7 +52,7 @@ export default function FlagSheet({
               onSave(reason.trim())
             }
           }}
-          className={`flex-1 min-h-[44px] rounded-[14px] font-semibold text-[16px] ${
+          className={`flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] font-semibold text-[16px] ${
             isValid
               ? 'bg-[var(--red-tint)] text-[var(--red)]'
               : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'

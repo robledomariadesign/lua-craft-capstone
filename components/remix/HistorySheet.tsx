@@ -53,7 +53,7 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
       <button
         type="button"
         onClick={onClose}
-        className="w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
+        className="flex items-center justify-center w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
       >
         Close
       </button>

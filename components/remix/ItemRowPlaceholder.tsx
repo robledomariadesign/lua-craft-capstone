@@ -10,7 +10,7 @@ interface ItemRowPlaceholderProps {
 
 export default function ItemRowPlaceholder({ item }: ItemRowPlaceholderProps) {
   return (
-    <div className="flex flex-col w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3">
+    <div className="flex flex-col w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] px-[14px] py-3">
       <div className="flex items-center gap-2 min-h-[44px]">
         <div className="flex-1">
           <div className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</div>
