@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
 import ActionButton from '@/components/remix/ActionButton'
+import HistorySheet from '@/components/remix/HistorySheet'
 import { RECORDS, type RecordId } from '@/lib/remix/record'
 
 export default function RecordPage() {
@@ -11,6 +13,7 @@ export default function RecordPage() {
   const router = useRouter()
   const recordId = params.recordId as RecordId
   const record = RECORDS.find((r) => r.id === recordId)
+  const [showHistory, setShowHistory] = useState(false)
 
   if (!record) {
     return (
@@ -32,9 +35,13 @@ export default function RecordPage() {
         <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
           {record.name}
         </p>
-        <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
+        <button
+          type="button"
+          onClick={() => setShowHistory(true)}
+          className="shrink-0 inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]"
+        >
           v{record.specVersion}
-        </div>
+        </button>
       </div>
 
       {/* Main scroll area */}
@@ -98,6 +105,10 @@ export default function RecordPage() {
           </ActionButton>
         </div>
       </div>
+
+      {showHistory && (
+        <HistorySheet record={record} onClose={() => setShowHistory(false)} />
+      )}
     </PhoneShell>
   )
 }

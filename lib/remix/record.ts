@@ -19,9 +19,10 @@ export interface VersionEntry {
   status: 'retired' | 'current'
   approvedBy?: string
   approvedOn?: string
+  channel?: string          // where the approval happened, e.g. 'WhatsApp'
   origin: 'created' | 'corrected-from-review' | 'record-amended'
   changedItems?: string[]
-  note: string
+  note?: string             // only when there's something to say beyond version/status/approval
 }
 
 export interface PackagingRecord {
@@ -133,7 +134,6 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
           created: '2026-01-12',
           status: 'retired',
           origin: 'created',
-          note: 'Initial record created',
         },
         {
           version: 2,
@@ -142,7 +142,7 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
           origin: 'created',
           approvedBy: 'Luisa',
           approvedOn: '2026-01-29',
-          note: 'Initial approval',
+          channel: 'WhatsApp',
         },
         {
           version: 3,
@@ -159,7 +159,6 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
           created: '2026-01-12',
           status: 'current',
           origin: 'created',
-          note: 'Initial record created',
         },
       ]
 
