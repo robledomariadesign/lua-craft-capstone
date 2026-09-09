@@ -56,7 +56,7 @@ export default function RecordPage() {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-              }).toLowerCase()
+              })
             })()}
           </p>
 
