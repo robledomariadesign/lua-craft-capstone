@@ -38,14 +38,17 @@ export default function CheckPage() {
   const [flaggingItem, setFlaggingItem] = useState<SpecItem | null>(null)
   const [scrollCollapsed, setScrollCollapsed] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const suppressScrollRef = useRef(false)
 
   // Collapse/expand the pinned ficha as the user scrolls, with hysteresis so
-  // the collapse-induced layout shift (scroll anchoring) cannot bounce the
-  // state back and forth. Collapse above ~40px, only re-expand below ~8px.
+  // a stray scroll event right at either threshold cannot bounce the state
+  // back and forth. Collapse above ~40px, only re-expand below ~8px.
+  // Ignored entirely while suppressScrollRef is set — see the effect below.
   useEffect(() => {
     const container = scrollContainerRef.current
     if (!container) return
     const handleScroll = () => {
+      if (suppressScrollRef.current) return
       const scrollTop = container.scrollTop
       setScrollCollapsed((prev) => {
         if (scrollTop > 40) return true
@@ -59,6 +62,24 @@ export default function CheckPage() {
 
   // A row being open always forces the collapsed state; otherwise scroll decides.
   const isPinnedCollapsed = expandedItemKey !== null || scrollCollapsed
+
+  // The pinned ficha's height changes over a 200ms CSS transition whenever
+  // isPinnedCollapsed flips. That resizes a sticky, first-in-document element,
+  // which shifts everything after it in document coordinates — exactly what
+  // browser scroll anchoring exists to compensate for. Here the compensation
+  // it wants is a large negative scrollTop delta, which clamps to 0 — under
+  // the 8px re-expand threshold above — re-triggering the opposite transition
+  // mid-animation. overflow-anchor: none on the scroll container (below) stops
+  // the browser from doing that; this suppresses our own scroll handler for
+  // the transition's duration so a stray native scroll event mid-animation
+  // can't be misread as the user having scrolled to the top.
+  useEffect(() => {
+    suppressScrollRef.current = true
+    const timeout = setTimeout(() => {
+      suppressScrollRef.current = false
+    }, 250)
+    return () => clearTimeout(timeout)
+  }, [isPinnedCollapsed])
 
   // Count confirmed marks — safe to compute pre-ready (run defaults to the
   // seed), but only displayed once ready so a stale/seed count is never shown.
@@ -79,8 +100,14 @@ export default function CheckPage() {
         </div>
       </div>
 
-      {/* Main scroll area */}
-      <div ref={scrollContainerRef} className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
+      {/* Main scroll area. overflow-anchor: none stops the browser from
+          adjusting scrollTop on its own when the sticky ficha resizes — see
+          the effect above for why that adjustment is the actual bug. */}
+      <div
+        ref={scrollContainerRef}
+        className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]"
+        style={{ overflowAnchor: 'none' }}
+      >
         {/* Scrollable content wrapper. min-height guarantees at least 80px of
             real scroll range in every state on every device, so collapsing
             the pinned page can never bring scrollHeight below clientHeight —
