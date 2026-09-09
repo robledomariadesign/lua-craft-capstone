@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import type { SpecItem } from '@/lib/remix/record'
 import Sheet from './Sheet'
-import ActionButton from './ActionButton'
 
 interface FlagSheetProps {
   item: SpecItem
@@ -33,24 +32,35 @@ export default function FlagSheet({
       <textarea
         value={reason}
         onChange={(e) => setReason(e.target.value)}
-        placeholder="Explain what doesn't match…"
+        placeholder="In your own words, explain what doesn't match…"
         className="w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-[14px] text-[var(--ink)] placeholder-[var(--ink-faint)] resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]"
       />
 
-      <div className="text-[12px] text-[var(--ink-soft)]">
-        {reason.length} characters · minimum 1
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex-1 min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          disabled={!isValid}
+          onClick={() => {
+            if (isValid) {
+              onSave(reason.trim())
+            }
+          }}
+          className={`flex-1 min-h-[44px] rounded-[14px] font-semibold text-[16px] ${
+            isValid
+              ? 'bg-[var(--red-tint)] text-[var(--red)]'
+              : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'
+          }`}
+        >
+          Save flag
+        </button>
       </div>
-
-      <ActionButton
-        variant={isValid ? 'blue' : 'disabled'}
-        onClick={() => {
-          if (isValid) {
-            onSave(reason.trim())
-          }
-        }}
-      >
-        Save note
-      </ActionButton>
     </Sheet>
   )
 }

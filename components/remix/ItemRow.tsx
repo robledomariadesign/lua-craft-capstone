@@ -30,7 +30,7 @@ export default function ItemRow({
   const [editingReason, setEditingReason] = useState(mark.reason || '')
 
   const statusLabel =
-    mark.status === 'match' ? '✓ Match' : mark.status === 'flagged' ? '⚑ Flagged' : 'Check'
+    mark.status === 'match' ? '✓ Match' : mark.status === 'flagged' ? '⚑ Flagged' : 'Not yet'
 
   const chipClass = statusChipStyles[mark.status]
 
@@ -76,7 +76,7 @@ export default function ItemRow({
         onClick={() => onExpand(false)}
         className="text-[14px] font-semibold text-[var(--blue)] mb-2"
       >
-        ‹ Back
+        Close
       </button>
 
       {/* Label and question */}
@@ -90,8 +90,8 @@ export default function ItemRow({
 
       {/* If already marked, show the reason */}
       {mark.status !== 'unchecked' && mark.reason && (
-        <div className="rounded-[12px] border border-[var(--line)] bg-[var(--tint)] p-3">
-          <div className="text-[12px] font-semibold text-[var(--ink-soft)] mb-1">YOUR NOTE</div>
+        <div className="rounded-[12px] border border-[var(--line)] bg-[var(--red-tint)] p-3">
+          <div className="text-[12px] font-semibold text-[var(--ink)] mb-1">YOUR NOTES</div>
           <div className="text-[14px] text-[var(--ink)] break-words">{mark.reason}</div>
         </div>
       )}

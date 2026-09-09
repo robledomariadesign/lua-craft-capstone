@@ -84,6 +84,7 @@ export default function CheckPage() {
   // Count confirmed marks — safe to compute pre-ready (run defaults to the
   // seed), but only displayed once ready so a stale/seed count is never shown.
   const confirmed = record.items.filter((i) => run.marks[i.key].status !== 'unchecked').length
+  const matching = confirmed - flagged.length
 
   return (
     <PhoneShell>
@@ -177,11 +178,8 @@ export default function CheckPage() {
         ) : !allChecked ? (
           <>
             <ActionButton variant="disabled">
-              {remaining} item{remaining === 1 ? '' : 's'} to check
+              {remaining} item{remaining === 1 ? '' : 's'} left to check
             </ActionButton>
-            <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
-              Mark every item to continue
-            </p>
           </>
         ) : (
           <>
@@ -192,7 +190,7 @@ export default function CheckPage() {
               See summary
             </ActionButton>
             <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
-              {confirmed} confirmed {flagged.length > 0 && `· ${flagged.length} flagged`}
+              {flagged.length} flagged · {matching} matching · {confirmed} of {record.items.length} confirmed
             </p>
           </>
         )}

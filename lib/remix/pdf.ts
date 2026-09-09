@@ -49,12 +49,12 @@ export function buildSummaryLines({ record, run, items }: PDFOptions): string[] 
 
     // Status and reason
     if (mark.status === 'flagged') {
-      lines.push(`Status: ${statusStr}`)
+      lines.push(`Status / Estado: ${statusStr}`)
       if (mark.reason) {
         lines.push(`Reason: ${mark.reason}`)
       }
     } else if (mark.status === 'match') {
-      lines.push(`Status: ${statusStr}`)
+      lines.push(`Status / Estado: ${statusStr}`)
     }
 
     lines.push('')

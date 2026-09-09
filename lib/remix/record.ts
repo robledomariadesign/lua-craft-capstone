@@ -48,7 +48,7 @@ const PRINT_TEXT: SpecItem = {
   ],
   summary: 'Wordmark, tagline',
   hint: 'Exact characters · capitalization counts',
-  question: 'Does what the printer sent match character for character?',
+  question: 'Does what the manufacturer sent show this?',
 }
 
 const IMAGES: SpecItem = {
@@ -59,7 +59,7 @@ const IMAGES: SpecItem = {
   value: 'High-resolution artwork, applied to the outer face', // CONFIRM
   summary: 'High-resolution artwork',
   hint: 'Artwork applied to exterior',
-  question: 'Do the images match?',
+  question: 'Does what the manufacturer sent show this?',
 }
 
 const PROCESSES_LINES = [
@@ -78,8 +78,8 @@ const PROCESSES: SpecItem = {
   value: PROCESSES_LINES.map(l => `${l.label}: ${l.value}`).join(' · '), // CONFIRM
   lines: PROCESSES_LINES,
   summary: `${PROCESSES_LINES.length} recorded`,
-  hint: 'Cutting, die-cutting, and finishing',
-  question: 'Are all processes correct?',
+  hint: '',
+  question: 'Does what the manufacturer sent show this?',
 }
 
 const QUANTITY: SpecItem = {
@@ -90,7 +90,7 @@ const QUANTITY: SpecItem = {
   value: '3000 units',
   summary: '3000 units',
   hint: 'Per reference · supplier minimum 200',
-  question: 'Is the quantity correct?',
+  question: 'Does what the manufacturer sent show this?',
 }
 
 const MATERIAL_COATING: SpecItem = {
@@ -100,8 +100,8 @@ const MATERIAL_COATING: SpecItem = {
   type: 'string',
   value: 'Cartón blanco 0.56 · Mate', // CONFIRM
   summary: 'Cartón blanco 0.56 · Mate',
-  hint: 'Stock and finish',
-  question: 'Is the material and coating correct?',
+  hint: '',
+  question: 'Does what the manufacturer sent show this?',
 }
 
 function createRecord(id: RecordId, name: string, reference: string, dimensionsValue: string): PackagingRecord {
@@ -118,7 +118,7 @@ function createRecord(id: RecordId, name: string, reference: string, dimensionsV
       value: dimensionsValue, // CONFIRM
       summary: dimensionsValue,
       hint: 'Finished size, flat',
-      question: 'Do the dimensions match?',
+      question: 'Does what the manufacturer sent show this?',
     },
     IMAGES,
     PROCESSES,

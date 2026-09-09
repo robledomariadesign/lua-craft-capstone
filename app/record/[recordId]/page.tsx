@@ -46,6 +46,7 @@ export default function RecordPage() {
               const [year, month, day] = record.savedOn.split('-')
               const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
               return date.toLocaleDateString('en-US', {
+                year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               }).toLowerCase()
