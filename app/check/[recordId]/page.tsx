@@ -77,8 +77,14 @@ export default function CheckPage() {
             Resolves against this flex column's own resolved height, so there
             is no row/nav/action-bar arithmetic to keep in sync. */}
         <div className="flex flex-col" style={{ minHeight: 'calc(100% + 80px)' }}>
-          {/* Ficha viewer — no run dependency, renders immediately */}
-          <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 linen">
+          {/* Ficha viewer — no run dependency, renders immediately. Scrolls away
+              with the content until a row opens; then it sticks, collapsed to
+              the strip, and paints paper so rows do not show through it. */}
+          <div
+            className={`shrink-0 px-4 pt-4 pb-2 ${
+              isPinnedCollapsed ? 'sticky top-0 z-10 linen' : ''
+            }`}
+          >
             <FichaViewer hidePinnedPage={isPinnedCollapsed} />
           </div>
 
