@@ -144,7 +144,7 @@ export default function SummaryPage() {
               panel needs an edge against the cream paper. */}
           {ready && matchingItems.length > 0 && (
             <div className="bg-[var(--blue-tint)] border border-[#C7CEEA] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
-              <p className="text-[11px] font-semibold text-[var(--green)] uppercase">
+              <p className="text-[11px] font-semibold text-[var(--ink)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
               </p>
               <div className="space-y-[3px]">

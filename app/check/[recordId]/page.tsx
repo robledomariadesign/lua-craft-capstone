@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import PhoneShell from '@/components/remix/PhoneShell'
 import FichaViewer from '@/components/remix/FichaViewer'
@@ -36,50 +36,11 @@ export default function CheckPage() {
 
   const [expandedItemKey, setExpandedItemKey] = useState<string | null>(null)
   const [flaggingItem, setFlaggingItem] = useState<SpecItem | null>(null)
-  const [scrollCollapsed, setScrollCollapsed] = useState(false)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const suppressScrollRef = useRef(false)
 
-  // Collapse/expand the pinned ficha as the user scrolls, with hysteresis so
-  // a stray scroll event right at either threshold cannot bounce the state
-  // back and forth. Collapse above ~40px, only re-expand below ~8px.
-  // Ignored entirely while suppressScrollRef is set — see the effect below.
-  useEffect(() => {
-    const container = scrollContainerRef.current
-    if (!container) return
-    const handleScroll = () => {
-      if (suppressScrollRef.current) return
-      const scrollTop = container.scrollTop
-      setScrollCollapsed((prev) => {
-        if (scrollTop > 40) return true
-        if (scrollTop < 8) return false
-        return prev
-      })
-    }
-    container.addEventListener('scroll', handleScroll, { passive: true })
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // A row being open always forces the collapsed state; otherwise scroll decides.
-  const isPinnedCollapsed = expandedItemKey !== null || scrollCollapsed
-
-  // The pinned ficha's height changes over a 200ms CSS transition whenever
-  // isPinnedCollapsed flips. That resizes a sticky, first-in-document element,
-  // which shifts everything after it in document coordinates — exactly what
-  // browser scroll anchoring exists to compensate for. Here the compensation
-  // it wants is a large negative scrollTop delta, which clamps to 0 — under
-  // the 8px re-expand threshold above — re-triggering the opposite transition
-  // mid-animation. overflow-anchor: none on the scroll container (below) stops
-  // the browser from doing that; this suppresses our own scroll handler for
-  // the transition's duration so a stray native scroll event mid-animation
-  // can't be misread as the user having scrolled to the top.
-  useEffect(() => {
-    suppressScrollRef.current = true
-    const timeout = setTimeout(() => {
-      suppressScrollRef.current = false
-    }, 250)
-    return () => clearTimeout(timeout)
-  }, [isPinnedCollapsed])
+  // The pinned ficha collapses only while a row is open. It used to collapse on
+  // scroll as well, with 40/8px hysteresis; against a 267px page and an 80px
+  // collapsed scroll range that toggled on every wheel notch or flick.
+  const isPinnedCollapsed = expandedItemKey !== null
 
   // Count confirmed marks — safe to compute pre-ready (run defaults to the
   // seed), but only displayed once ready so a stale/seed count is never shown.
@@ -102,21 +63,19 @@ export default function CheckPage() {
       </div>
 
       {/* Main scroll area. overflow-anchor: none stops the browser from
-          adjusting scrollTop on its own when the sticky ficha resizes — see
-          the effect above for why that adjustment is the actual bug. */}
+          adjusting scrollTop on its own when the sticky ficha resizes as a
+          row opens or closes — it is first in flow, so without this the
+          browser would compensate for the height change by shifting scrollTop. */}
       <div
-        ref={scrollContainerRef}
         className="flex-1 flex flex-col overflow-y-auto"
         style={{ overflowAnchor: 'none' }}
       >
         {/* Scrollable content wrapper. min-height guarantees at least 80px of
             real scroll range in every state on every device, so collapsing
-            the pinned page can never bring scrollHeight below clientHeight —
-            the browser's scrollTop clamp-to-0 (which defeats the 40/8
-            hysteresis outright, since 0 is under the re-expand threshold)
-            becomes unreachable. Resolves against this flex column's own
-            resolved height, so there is no row/nav/action-bar arithmetic to
-            keep in sync as any of those change. */}
+            the pinned page when a row opens can never bring scrollHeight
+            below clientHeight and clamp scrollTop to 0 under the user.
+            Resolves against this flex column's own resolved height, so there
+            is no row/nav/action-bar arithmetic to keep in sync. */}
         <div className="flex flex-col" style={{ minHeight: 'calc(100% + 80px)' }}>
           {/* Ficha viewer — no run dependency, renders immediately */}
           <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 linen">
@@ -142,7 +101,7 @@ export default function CheckPage() {
 
           {/* Item list — labels and summaries are record data and render either
               way; only the status chip waits on the hydrated run */}
-          <div className="flex-1 px-4 pb-4 space-y-2">
+          <div className="flex-1 px-4 pb-6 space-y-3">
             {record.items.map((item) =>
               ready ? (
                 <ItemRow

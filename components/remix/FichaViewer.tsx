@@ -65,7 +65,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
           src={`/ficha-op3338-p${page}-thumb.jpg`}
           alt={`Page ${page}`}
           width={240}
-          height={312}
+          height={185}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <span
@@ -95,7 +95,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
             src={`/ficha-op3338-p${zoomedPage}.jpg`}
             alt={`Ficha page ${zoomedPage} zoomed`}
             width={2000}
-            height={2591}
+            height={1545}
             className="block"
             style={{
               maxWidth: '100vw',
@@ -157,7 +157,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
               src={`/ficha-op3338-p${pinnedPage}.jpg`}
               alt={`Ficha page ${pinnedPage}`}
               width={2000}
-              height={2591}
+              height={1545}
               className="w-full h-auto block"
             />
           </button>
