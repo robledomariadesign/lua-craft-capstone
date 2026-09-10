@@ -78,7 +78,7 @@ export default function ResetPage() {
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ padding: '20px' }}>
       <Link href="/" style={{ color: '#2196F3', textDecoration: 'underline', fontSize: '14px', marginBottom: '20px', display: 'block' }}>
         ‹ Back to records
       </Link>

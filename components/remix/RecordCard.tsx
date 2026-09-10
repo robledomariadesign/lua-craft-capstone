@@ -35,7 +35,7 @@ export default function RecordCard({ item }: RecordCardProps) {
           {item.value}
         </div>
       ) : item.type === 'measurement' ? (
-        <div className="text-[16px] text-[var(--ink)] font-mono">
+        <div className="text-[16px] text-[var(--ink)]">
           {item.value}
         </div>
       ) : item.type === 'yesno' && item.lines ? (

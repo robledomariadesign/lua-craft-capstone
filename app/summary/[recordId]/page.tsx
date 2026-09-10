@@ -93,7 +93,7 @@ export default function SummaryPage() {
 
           {/* Headline */}
           {ready ? (
-            <p className="text-[24px] font-bold text-[var(--ink)]">
+            <p className="text-[24px] font-serif font-semibold text-[var(--ink)]">
               {totalConfirmed} of {record.items.length} confirmed
             </p>
           ) : (
@@ -110,7 +110,7 @@ export default function SummaryPage() {
               <div className="flex items-center justify-between gap-2">
                 <p className="text-[13px] font-semibold text-[var(--ink)]">{item.label}</p>
                 <div className="bg-[var(--red-tint)] rounded-[999px] px-2 py-[3px]">
-                  <p className="text-[10px] font-semibold text-[var(--red)]">⚑ Flagged</p>
+                  <p className="text-[10px] font-semibold text-[var(--red-deep)]">⚑ Flagged</p>
                 </div>
               </div>
               {item.lines && item.lines.length > 0 ? (
@@ -156,21 +156,25 @@ export default function SummaryPage() {
             </div>
           )}
 
-          {/* Save button */}
-          <ActionButton variant={ready ? 'blue' : 'disabled'} onClick={handleSaveSummary}>
-            Save summary to send
-          </ActionButton>
+          {/* Save button, inside the same terracotta island as the check
+              screen's action bar. -mx-[6px] pulls it out to the island's 10px
+              inset from the 16px content padding. */}
+          <div className="flex flex-col gap-2 rounded-[26px] bg-[var(--red)] px-[15px] pt-4 pb-[18px] -mx-[6px]">
+            <ActionButton variant={ready ? 'island' : 'island-disabled'} onClick={handleSaveSummary}>
+              Save summary to send
+            </ActionButton>
 
-          {/* Description */}
-          <p className="text-[11px] text-[var(--ink-soft)]">
-            PDF with version and date will be created in English and Spanish
-          </p>
+            {/* Description — --surface on --red, 4.57:1 */}
+            <p className="w-full text-center text-[11px] text-[var(--surface)]">
+              PDF with version and date will be created in English and Spanish
+            </p>
+          </div>
 
           {/* Copy button */}
           <button
             onClick={handleCopySummary}
             disabled={!ready}
-            className={`flex items-center justify-center py-[13px] rounded-[14px] text-[15px] font-medium min-h-[44px] ${
+            className={`flex items-center justify-center py-[13px] rounded-[14px] text-[15px] font-serif font-semibold min-h-[44px] ${
               ready
                 ? 'bg-[var(--tint)] text-[var(--ink)] cursor-pointer'
                 : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'

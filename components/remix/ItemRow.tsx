@@ -47,7 +47,7 @@ export default function ItemRow({
       >
         <div className="flex items-center gap-2 min-h-[44px]">
           <div className="flex-1">
-            <div className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</div>
+            <div className="text-[14px] font-serif font-semibold text-[var(--ink)]">{item.label}</div>
             <div className="text-[13px] text-[var(--ink-soft)] mt-0.5 truncate">
               {item.summary}
             </div>
@@ -81,7 +81,7 @@ export default function ItemRow({
 
       {/* Label and question */}
       <div>
-        <h3 className="text-[18px] font-bold text-[var(--ink)]">{item.label}</h3>
+        <h3 className="text-[18px] font-serif font-semibold text-[var(--ink)]">{item.label}</h3>
         <p className="text-[14px] text-[var(--ink-soft)] mt-1">{item.question}</p>
       </div>
 
@@ -104,7 +104,7 @@ export default function ItemRow({
             setEditingReason('')
             onFlag(item)
           }}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red)] font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red-deep)] font-serif font-semibold text-[14px]"
         >
           Flag · say why
         </button>
@@ -114,7 +114,7 @@ export default function ItemRow({
             onMark(item.key, 'match')
             onExpand(false)
           }}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-serif font-semibold text-[14px]"
         >
           Match
         </button>

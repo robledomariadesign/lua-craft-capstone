@@ -93,7 +93,7 @@ export default function CheckPage() {
         <Link href={`/record/${recordId}`} className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
           ‹ Record
         </Link>
-        <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
+        <p className="flex-1 text-center text-[14px] font-serif font-semibold text-[var(--ink)]">
           {record.name}
         </p>
         <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
@@ -168,32 +168,40 @@ export default function CheckPage() {
         </div>
       </div>
 
-      {/* Action bar */}
-      <div className="safe-bottom flex w-full shrink-0 flex-col gap-2 bg-[var(--surface)] px-4 pt-[10px] border-t border-[var(--line)]">
-        {!ready ? (
-          <>
-            <div className="min-h-[44px] w-full rounded-[14px] bg-[var(--tint-deep)]" />
-            <div className="mx-auto w-[160px] h-[15px] rounded-[4px] bg-[var(--tint-deep)]" />
-          </>
-        ) : !allChecked ? (
-          <>
-            <ActionButton variant="disabled">
-              {remaining} item{remaining === 1 ? '' : 's'} left to check
-            </ActionButton>
-          </>
-        ) : (
-          <>
-            <ActionButton
-              variant="blue"
-              onClick={() => router.push(`/summary/${recordId}`)}
-            >
-              See summary
-            </ActionButton>
-            <p className="w-full text-center text-[12px] text-[var(--ink-soft)]">
-              {flagged.length} flagged · {matching} matching · {confirmed} of {record.items.length} confirmed
-            </p>
-          </>
-        )}
+      {/* Action bar — a terracotta island inset from the screen edges, not a
+          full-bleed bar. The island is always present so the bar keeps its
+          shape across the three states; only the pill inside it changes. */}
+      <div
+        className="shrink-0 px-[10px] pt-2"
+        style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+      >
+        <div className="flex flex-col gap-2 rounded-[26px] bg-[var(--red)] px-[15px] pt-4 pb-[18px]">
+          {!ready ? (
+            <>
+              <div className="min-h-[44px] w-full rounded-[999px] bg-[var(--chip-bg)]" />
+              <div className="mx-auto w-[160px] h-[15px] rounded-[4px] bg-[var(--chip-bg)]" />
+            </>
+          ) : !allChecked ? (
+            <>
+              <ActionButton variant="island-disabled">
+                {remaining} item{remaining === 1 ? '' : 's'} left to check
+              </ActionButton>
+            </>
+          ) : (
+            <>
+              <ActionButton
+                variant="island"
+                onClick={() => router.push(`/summary/${recordId}`)}
+              >
+                See summary
+              </ActionButton>
+              {/* --surface on --red: 4.57:1. --paper here would be 4.00:1. */}
+              <p className="w-full text-center text-[12px] text-[var(--surface)]">
+                {flagged.length} flagged · {matching} matching · {confirmed} of {record.items.length} confirmed
+              </p>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Flag sheet */}

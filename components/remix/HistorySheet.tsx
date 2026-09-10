@@ -30,7 +30,7 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
             className="rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 space-y-1"
           >
             <p className="text-[14px] font-semibold text-[var(--ink)]">
-              v{entry.version} · {formatDate(entry.created)}
+              <span className="font-serif">v{entry.version}</span> · {formatDate(entry.created)}
             </p>
             <span className="inline-block rounded-[6px] bg-[var(--tint)] text-[var(--ink)] text-[12px] font-semibold px-2 py-0.5">
               {entry.status === 'current' ? 'Current' : 'Retired'}
@@ -53,7 +53,7 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
       <button
         type="button"
         onClick={onClose}
-        className="flex items-center justify-center w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
+        className="flex items-center justify-center w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[16px]"
       >
         Close
       </button>

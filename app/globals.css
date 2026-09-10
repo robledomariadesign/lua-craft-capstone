@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* next/font sets --font-karla / --font-newsreader on <html> (app/layout.tsx).
+   Tailwind's font-sans / font-serif utilities resolve to these. */
+@theme inline {
+  --font-sans: var(--font-karla), -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+}
+
 :root {
   --paper:     #F8EFDE;
   --surface:   #FFFFFF;
@@ -32,8 +40,8 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-    system-ui, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-karla), -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
 }
 

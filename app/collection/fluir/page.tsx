@@ -28,7 +28,7 @@ export default function FluirCollectionPage() {
               className="flex items-center w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] px-[14px] py-[13px]"
             >
               <div className="flex-1 flex flex-col gap-[3px]">
-                <p className="text-[15px] font-medium text-[var(--ink)]">{jewelry.name}</p>
+                <p className="text-[15px] font-serif font-semibold text-[var(--ink)]">{jewelry.name}</p>
                 <p className="text-[12px] text-[var(--ink-soft)]">Not checkable this round</p>
               </div>
             </div>
@@ -47,7 +47,7 @@ export default function FluirCollectionPage() {
                 className="flex items-center gap-3 w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] px-[14px] py-[13px] hover:bg-[var(--tint)] transition-colors"
               >
                 <div className="flex-1 flex flex-col gap-[3px]">
-                  <p className="text-[15px] font-medium text-[var(--ink)]">{record.name}</p>
+                  <p className="text-[15px] font-serif font-semibold text-[var(--ink)]">{record.name}</p>
                   <p className="text-[12px] text-[var(--ink-soft)]">{dimensions?.value}</p>
                 </div>
                 <p className="text-[18px] text-[var(--ink-faint)]">›</p>

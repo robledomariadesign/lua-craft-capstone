@@ -127,7 +127,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
       <button
         type="button"
         onClick={() => setZoomedPage(null)}
-        className="fixed text-white bg-[rgba(0,0,0,0.7)] hover:bg-[rgba(0,0,0,0.9)] rounded-full w-11 h-11 flex items-center justify-center font-semibold z-[60] cursor-pointer"
+        className="fixed text-white bg-[rgba(0,0,0,0.7)] hover:bg-[rgba(0,0,0,0.9)] rounded-full w-11 h-11 flex items-center justify-center font-serif font-semibold z-[60] cursor-pointer"
         style={{
           top: 'max(16px, env(safe-area-inset-top))',
           right: 'max(16px, env(safe-area-inset-right))',

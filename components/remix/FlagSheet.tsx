@@ -40,7 +40,7 @@ export default function FlagSheet({
         <button
           type="button"
           onClick={onCancel}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-semibold text-[16px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[16px]"
         >
           Cancel
         </button>
@@ -52,9 +52,9 @@ export default function FlagSheet({
               onSave(reason.trim())
             }
           }}
-          className={`flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] font-semibold text-[16px] ${
+          className={`flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] font-serif font-semibold text-[16px] ${
             isValid
-              ? 'bg-[var(--red-tint)] text-[var(--red)]'
+              ? 'bg-[var(--red-tint)] text-[var(--red-deep)]'
               : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'
           }`}
         >

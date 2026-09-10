@@ -32,7 +32,7 @@ export default function RecordPage() {
         <Link href="/collection/fluir" className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
           ‹ Fluir Collection
         </Link>
-        <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
+        <p className="flex-1 text-center text-[14px] font-serif font-semibold text-[var(--ink)]">
           {record.name}
         </p>
         <button
@@ -68,7 +68,7 @@ export default function RecordPage() {
             >
               {/* Header row with label and term */}
               <div className="flex items-center justify-between gap-2">
-                <p className="text-[13px] font-semibold text-[var(--ink)]">{item.label}</p>
+                <p className="text-[13px] font-serif font-semibold text-[var(--ink)]">{item.label}</p>
                 <div className="flex-1 h-px bg-[var(--line)]" />
                 <p className="text-[12px] text-[var(--ink-soft)] whitespace-nowrap">
                   {item.termEs}
