@@ -8,7 +8,7 @@
   --line:      #DCCFAE;
   --ink:       #2E2A22;
   --ink-soft:  #756A4B;
-  --ink-faint: #A69B7C;
+  --ink-faint: #756A4B;  /* same as --ink-soft; kept for the frozen /a /b tree */
   --ink-micro: #6b6661;
   --chip-bg:   #EFE7D6;
   --chip-text: #5A5340;
