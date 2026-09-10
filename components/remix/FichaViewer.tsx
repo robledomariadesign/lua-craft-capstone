@@ -69,7 +69,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
           className="absolute inset-0 w-full h-full object-cover"
         />
         <span
-          className={`absolute bottom-0 left-0 right-0 text-center text-[10px] font-semibold py-0.5 ${
+          className={`absolute bottom-0 left-0 right-0 text-center text-[11px] font-semibold py-0.5 ${
             selected ? 'bg-[var(--blue)] text-white' : 'bg-[rgba(0,0,0,0.55)] text-white'
           }`}
         >
@@ -181,7 +181,7 @@ export default function FichaViewer({ hidePinnedPage = false }: FichaViewerProps
       </div>
 
       {/* Caption row */}
-      <div className="flex justify-between items-center text-xs px-1 text-[var(--ink-soft)]">
+      <div className="flex justify-between items-center text-[13px] px-1 text-[var(--ink-soft)]">
         <span>FICHA TÉCNICA · OP 3338 · 6 PAGES</span>
         <button
           type="button"

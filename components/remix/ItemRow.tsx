@@ -47,19 +47,19 @@ export default function ItemRow({
       >
         <div className="flex items-center gap-2 min-h-[44px]">
           <div className="flex-1">
-            <div className="text-[14px] font-serif font-semibold text-[var(--ink)]">{item.label}</div>
-            <div className="text-[13px] text-[var(--ink-soft)] mt-0.5 truncate">
+            <div className="text-[15px] font-serif font-semibold text-[var(--ink)]">{item.label}</div>
+            <div className="text-[14px] text-[var(--ink-soft)] mt-0.5 truncate">
               {item.summary}
             </div>
           </div>
           <div
-            className={`shrink-0 px-3 py-1.5 rounded-[12px] text-[12px] font-semibold ${chipClass}`}
+            className={`shrink-0 px-3 py-1.5 rounded-[12px] text-[13px] font-semibold ${chipClass}`}
           >
             {statusLabel}
           </div>
         </div>
         {isFlagged && mark.reason && (
-          <div className="mt-2 rounded-[8px] bg-[var(--red-tint)] p-2 text-[13px] text-[var(--ink)] break-words">
+          <div className="mt-2 rounded-[8px] bg-[var(--red-tint)] p-2 text-[14px] text-[var(--ink)] break-words">
             {mark.reason}
           </div>
         )}
@@ -74,15 +74,15 @@ export default function ItemRow({
       <button
         type="button"
         onClick={() => onExpand(false)}
-        className="text-[14px] font-semibold text-[var(--blue)] mb-2"
+        className="text-[15px] font-semibold text-[var(--blue)] mb-2"
       >
         Close
       </button>
 
       {/* Label and question */}
       <div>
-        <h3 className="text-[18px] font-serif font-semibold text-[var(--ink)]">{item.label}</h3>
-        <p className="text-[14px] text-[var(--ink-soft)] mt-1">{item.question}</p>
+        <h3 className="text-[19px] font-serif font-semibold text-[var(--ink)]">{item.label}</h3>
+        <p className="text-[15px] text-[var(--ink-soft)] mt-1">{item.question}</p>
       </div>
 
       {/* Value card */}
@@ -91,8 +91,8 @@ export default function ItemRow({
       {/* If already marked, show the reason */}
       {mark.status !== 'unchecked' && mark.reason && (
         <div className="rounded-[12px] border border-[var(--line)] bg-[var(--red-tint)] p-3">
-          <div className="text-[12px] font-semibold text-[var(--ink)] mb-1">YOUR NOTES</div>
-          <div className="text-[14px] text-[var(--ink)] break-words">{mark.reason}</div>
+          <div className="text-[13px] font-semibold text-[var(--ink)] mb-1">YOUR NOTES</div>
+          <div className="text-[15px] text-[var(--ink)] break-words">{mark.reason}</div>
         </div>
       )}
 
@@ -104,7 +104,7 @@ export default function ItemRow({
             setEditingReason('')
             onFlag(item)
           }}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red-deep)] font-serif font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--red-tint)] text-[var(--red-deep)] font-serif font-semibold text-[15px]"
         >
           Flag · say why
         </button>
@@ -114,7 +114,7 @@ export default function ItemRow({
             onMark(item.key, 'match')
             onExpand(false)
           }}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-serif font-semibold text-[14px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-serif font-semibold text-[15px]"
         >
           Match
         </button>

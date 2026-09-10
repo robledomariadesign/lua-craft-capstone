@@ -14,12 +14,12 @@ interface ActionButtonProps {
 // inverts — a --paper pill with --red text — so that pairing is the one
 // place cream and terracotta meet.
 const variantStyles = {
-  green: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-serif font-semibold text-[16px]',
-  'red-tint': 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--red-tint)] text-[var(--red-deep)] font-serif font-semibold text-[16px]',
-  blue: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--blue)] text-[var(--surface)] font-serif font-semibold text-[16px]',
-  disabled: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--chip-bg)] text-[var(--ink-soft)] font-serif font-semibold text-[16px] cursor-not-allowed',
-  island: 'flex items-center justify-center min-h-[44px] w-full rounded-[999px] bg-[var(--paper)] text-[var(--red)] font-serif font-semibold text-[16px]',
-  'island-disabled': 'flex items-center justify-center min-h-[44px] w-full rounded-[999px] bg-[var(--chip-bg)] text-[var(--ink-soft)] font-serif font-semibold text-[16px] cursor-not-allowed',
+  green: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--green)] text-[var(--surface)] font-serif font-semibold text-[17px]',
+  'red-tint': 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--red-tint)] text-[var(--red-deep)] font-serif font-semibold text-[17px]',
+  blue: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--blue)] text-[var(--surface)] font-serif font-semibold text-[17px]',
+  disabled: 'flex items-center justify-center min-h-[44px] w-full rounded-[14px] bg-[var(--chip-bg)] text-[var(--ink-soft)] font-serif font-semibold text-[17px] cursor-not-allowed',
+  island: 'flex items-center justify-center min-h-[44px] w-full rounded-[999px] bg-[var(--paper)] text-[var(--red)] font-serif font-semibold text-[17px]',
+  'island-disabled': 'flex items-center justify-center min-h-[44px] w-full rounded-[999px] bg-[var(--chip-bg)] text-[var(--ink-soft)] font-serif font-semibold text-[17px] cursor-not-allowed',
 }
 
 export default function ActionButton({ variant, onClick, children }: ActionButtonProps) {

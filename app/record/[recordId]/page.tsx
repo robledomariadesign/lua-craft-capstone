@@ -28,27 +28,27 @@ export default function RecordPage() {
   return (
     <PhoneShell>
       {/* Nav */}
-      <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-        <Link href="/collection/fluir" className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
+      <div className="flex w-full shrink-0 items-center justify-between gap-2 linen px-4 py-2 border-b border-[var(--line)]">
+        <Link href="/collection/fluir" className="shrink-0 inline-flex items-center min-h-[44px] text-[17px] font-semibold text-[var(--blue)]">
           ‹ Fluir Collection
         </Link>
-        <p className="flex-1 text-center text-[14px] font-serif font-semibold text-[var(--ink)]">
+        <p className="flex-1 text-center text-[15px] font-serif font-semibold text-[var(--ink)]">
           {record.name}
         </p>
         <button
           type="button"
           onClick={() => setShowHistory(true)}
-          className="shrink-0 inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]"
+          className="shrink-0 inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[13px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]"
         >
           v{record.specVersion}
         </button>
       </div>
 
       {/* Main scroll area */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <div className="flex flex-col gap-3 px-4 pt-4 pb-4">
           {/* Timestamp */}
-          <p className="text-[11px] font-semibold text-[var(--ink-soft)] uppercase">
+          <p className="text-[12px] font-semibold text-[var(--ink-soft)] uppercase">
             Last saved {(() => {
               const [year, month, day] = record.savedOn.split('-')
               const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
@@ -68,9 +68,9 @@ export default function RecordPage() {
             >
               {/* Header row with label and term */}
               <div className="flex items-center justify-between gap-2">
-                <p className="text-[13px] font-serif font-semibold text-[var(--ink)]">{item.label}</p>
+                <p className="text-[14px] font-serif font-semibold text-[var(--ink)]">{item.label}</p>
                 <div className="flex-1 h-px bg-[var(--line)]" />
-                <p className="text-[12px] text-[var(--ink-soft)] whitespace-nowrap">
+                <p className="text-[13px] text-[var(--ink-soft)] whitespace-nowrap">
                   {item.termEs}
                 </p>
               </div>
@@ -81,9 +81,9 @@ export default function RecordPage() {
                 <div className="space-y-[5px]">
                   {item.lines.map((line, idx) => (
                     <div key={idx} className="flex items-center justify-between gap-2">
-                      <p className="text-[12px] text-[var(--ink-soft)]">{line.label}</p>
+                      <p className="text-[13px] text-[var(--ink-soft)]">{line.label}</p>
                       <div className="flex-1 h-px bg-[var(--line)]" />
-                      <p className="text-[13px] font-medium text-[var(--ink)] whitespace-nowrap">
+                      <p className="text-[14px] font-medium text-[var(--ink)] whitespace-nowrap">
                         {line.value}
                       </p>
                     </div>
@@ -91,7 +91,7 @@ export default function RecordPage() {
                 </div>
               ) : (
                 // Single-line value
-                <p className="text-[15px] font-medium text-[var(--ink)]">{item.value}</p>
+                <p className="text-[16px] font-medium text-[var(--ink)]">{item.value}</p>
               )}
             </div>
           ))}

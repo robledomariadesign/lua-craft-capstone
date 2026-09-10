@@ -21,7 +21,7 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
 
   return (
     <Sheet onDismiss={onClose}>
-      <h3 className="text-[16px] font-semibold text-[var(--ink)]">Version history</h3>
+      <h3 className="text-[17px] font-semibold text-[var(--ink)]">Version history</h3>
 
       <div className="space-y-2">
         {entries.map((entry) => (
@@ -29,22 +29,22 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
             key={entry.version}
             className="rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 space-y-1"
           >
-            <p className="text-[14px] font-semibold text-[var(--ink)]">
+            <p className="text-[15px] font-semibold text-[var(--ink)]">
               <span className="font-serif">v{entry.version}</span> · {formatDate(entry.created)}
             </p>
-            <span className="inline-block rounded-[6px] bg-[var(--tint)] text-[var(--ink)] text-[12px] font-semibold px-2 py-0.5">
+            <span className="inline-block rounded-[6px] bg-[var(--tint)] text-[var(--ink)] text-[13px] font-semibold px-2 py-0.5">
               {entry.status === 'current' ? 'Current' : 'Retired'}
             </span>
             {entry.approvedBy && entry.approvedOn ? (
-              <p className="text-[13px] text-[var(--ink)]">
+              <p className="text-[14px] text-[var(--ink)]">
                 Approved by {entry.approvedBy}
                 {entry.channel ? ` over ${entry.channel}` : ''} · {formatDate(entry.approvedOn)}
               </p>
             ) : (
-              <p className="text-[13px] text-[var(--ink)]">Never approved</p>
+              <p className="text-[14px] text-[var(--ink)]">Never approved</p>
             )}
             {entry.note && (
-              <p className="text-[13px] text-[var(--ink-soft)]">{entry.note}</p>
+              <p className="text-[14px] text-[var(--ink-soft)]">{entry.note}</p>
             )}
           </div>
         ))}
@@ -53,7 +53,7 @@ export default function HistorySheet({ record, onClose }: HistorySheetProps) {
       <button
         type="button"
         onClick={onClose}
-        className="flex items-center justify-center w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[16px]"
+        className="flex items-center justify-center w-full min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[17px]"
       >
         Close
       </button>

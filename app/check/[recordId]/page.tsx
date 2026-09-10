@@ -89,14 +89,14 @@ export default function CheckPage() {
   return (
     <PhoneShell>
       {/* Nav — version comes from the record, not the run, so it never waits on hydration */}
-      <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
-        <Link href={`/record/${recordId}`} className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)]">
+      <div className="flex w-full shrink-0 items-center justify-between gap-2 linen px-4 py-2 border-b border-[var(--line)]">
+        <Link href={`/record/${recordId}`} className="shrink-0 inline-flex items-center min-h-[44px] text-[17px] font-semibold text-[var(--blue)]">
           ‹ Record
         </Link>
-        <p className="flex-1 text-center text-[14px] font-serif font-semibold text-[var(--ink)]">
+        <p className="flex-1 text-center text-[15px] font-serif font-semibold text-[var(--ink)]">
           {record.name}
         </p>
-        <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
+        <div className="shrink-0 text-[13px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
           v{record.specVersion}
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function CheckPage() {
           the effect above for why that adjustment is the actual bug. */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]"
+        className="flex-1 flex flex-col overflow-y-auto"
         style={{ overflowAnchor: 'none' }}
       >
         {/* Scrollable content wrapper. min-height guarantees at least 80px of
@@ -119,17 +119,17 @@ export default function CheckPage() {
             keep in sync as any of those change. */}
         <div className="flex flex-col" style={{ minHeight: 'calc(100% + 80px)' }}>
           {/* Ficha viewer — no run dependency, renders immediately */}
-          <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 bg-[var(--paper)]">
+          <div className="sticky top-0 z-10 shrink-0 px-4 pt-4 pb-2 linen">
             <FichaViewer hidePinnedPage={isPinnedCollapsed} />
           </div>
 
           {/* Item list header */}
           <div className="shrink-0 flex items-center justify-between px-4 pt-3 pb-2">
             <div>
-              <p className="text-[12px] font-semibold text-[var(--ink-soft)]">
+              <p className="text-[13px] font-semibold text-[var(--ink-soft)]">
                 {record.reference}
               </p>
-              <p className="text-[14px] text-[var(--ink)]">
+              <p className="text-[15px] text-[var(--ink)]">
                 {record.name}
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function CheckPage() {
           shape across the three states; only the pill inside it changes. */}
       <div
         className="shrink-0 px-[10px] pt-2"
-        style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+        style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}
       >
         <div className="flex flex-col gap-2 rounded-[26px] bg-[var(--red)] px-[15px] pt-4 pb-[18px]">
           {!ready ? (
@@ -196,7 +196,7 @@ export default function CheckPage() {
                 See summary
               </ActionButton>
               {/* --surface on --red: 4.57:1. --paper here would be 4.00:1. */}
-              <p className="w-full text-center text-[12px] text-[var(--surface)]">
+              <p className="w-full text-center text-[13px] text-[var(--surface)]">
                 {flagged.length} flagged · {matching} matching · {confirmed} of {record.items.length} confirmed
               </p>
             </>

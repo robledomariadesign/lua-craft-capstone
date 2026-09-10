@@ -21,10 +21,10 @@ export default function FlagSheet({
   return (
     <Sheet onDismiss={onCancel}>
       <div>
-        <h3 className="text-[16px] font-semibold text-[var(--ink)]">
+        <h3 className="text-[17px] font-semibold text-[var(--ink)]">
           Flag · {item.label}
         </h3>
-        <p className="text-[13px] text-[var(--ink-soft)] mt-1">
+        <p className="text-[14px] text-[var(--ink-soft)] mt-1">
           What needs attention?
         </p>
       </div>
@@ -33,14 +33,14 @@ export default function FlagSheet({
         value={reason}
         onChange={(e) => setReason(e.target.value)}
         placeholder="Explain, in your own words, what the manufacturer needs to change"
-        className="w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-[14px] text-[var(--ink)] placeholder-[var(--ink-faint)] resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]"
+        className="w-full rounded-[12px] border border-[var(--line)] bg-[var(--surface)] p-3 text-[15px] text-[var(--ink)] placeholder-[var(--ink-faint)] resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]"
       />
 
       <div className="flex gap-2">
         <button
           type="button"
           onClick={onCancel}
-          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[16px]"
+          className="flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] bg-[var(--tint)] text-[var(--ink)] font-serif font-semibold text-[17px]"
         >
           Cancel
         </button>
@@ -52,7 +52,7 @@ export default function FlagSheet({
               onSave(reason.trim())
             }
           }}
-          className={`flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] font-serif font-semibold text-[16px] ${
+          className={`flex flex-1 items-center justify-center min-h-[44px] rounded-[14px] font-serif font-semibold text-[17px] ${
             isValid
               ? 'bg-[var(--red-tint)] text-[var(--red-deep)]'
               : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'

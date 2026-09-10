@@ -68,32 +68,32 @@ export default function SummaryPage() {
   return (
     <PhoneShell>
       {/* Nav */}
-      <div className="flex w-full shrink-0 items-center justify-between gap-2 bg-[var(--surface)] px-4 py-2 border-b border-[var(--line)]">
+      <div className="flex w-full shrink-0 items-center justify-between gap-2 linen px-4 py-2 border-b border-[var(--line)]">
         <button
           onClick={() => router.push(`/check/${recordId}`)}
-          className="shrink-0 inline-flex items-center min-h-[44px] text-[16px] font-semibold text-[var(--blue)] cursor-pointer"
+          className="shrink-0 inline-flex items-center min-h-[44px] text-[17px] font-semibold text-[var(--blue)] cursor-pointer"
         >
           ‹ Check
         </button>
-        <p className="flex-1 text-center text-[14px] font-semibold text-[var(--ink)]">
+        <p className="flex-1 text-center text-[15px] font-semibold text-[var(--ink)]">
           Summary
         </p>
-        <div className="shrink-0 text-[12px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
+        <div className="shrink-0 text-[13px] font-semibold bg-[var(--blue-tint)] text-[var(--blue)] px-2 py-1 rounded-[6px]">
           v{record.specVersion}
         </div>
       </div>
 
       {/* Main scroll area */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-[var(--paper)]">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <div className="flex flex-col gap-[13px] px-4 pt-4 pb-4">
           {/* Eyebrow */}
-          <p className="text-[11px] font-semibold text-[var(--ink-soft)] uppercase">
+          <p className="text-[12px] font-semibold text-[var(--ink-soft)] uppercase">
             {record.name}
           </p>
 
           {/* Headline */}
           {ready ? (
-            <p className="text-[24px] font-serif font-semibold text-[var(--ink)]">
+            <p className="text-[25px] font-serif font-semibold text-[var(--ink)]">
               {totalConfirmed} of {record.items.length} confirmed
             </p>
           ) : (
@@ -108,31 +108,31 @@ export default function SummaryPage() {
               className="bg-[var(--surface)] border-[1.5px] border-[var(--red)] rounded-[12px] px-[14px] py-[11px] space-y-[5px]"
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="text-[13px] font-semibold text-[var(--ink)]">{item.label}</p>
+                <p className="text-[14px] font-semibold text-[var(--ink)]">{item.label}</p>
                 <div className="bg-[var(--red-tint)] rounded-[999px] px-2 py-[3px]">
-                  <p className="text-[10px] font-semibold text-[var(--red-deep)]">⚑ Flagged</p>
+                  <p className="text-[11px] font-semibold text-[var(--red-deep)]">⚑ Flagged</p>
                 </div>
               </div>
               {item.lines && item.lines.length > 0 ? (
                 <>
-                  <p className="text-[13px] font-medium text-[var(--ink)]">Your record:</p>
+                  <p className="text-[14px] font-medium text-[var(--ink)]">Your record:</p>
                   <div className="space-y-[3px] pl-[12px]">
                     {item.lines.map((line) => (
-                      <p key={line.label} className="text-[13px] font-medium text-[var(--ink)]">
+                      <p key={line.label} className="text-[14px] font-medium text-[var(--ink)]">
                         {line.value}
                       </p>
                     ))}
                   </div>
-                  <p className="text-[12px] text-[var(--ink-soft)] mt-[5px]">
+                  <p className="text-[13px] text-[var(--ink-soft)] mt-[5px]">
                     Your note: {run.marks[item.key].reason}
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="text-[13px] font-medium text-[var(--ink)]">
+                  <p className="text-[14px] font-medium text-[var(--ink)]">
                     Your record: {item.value}
                   </p>
-                  <p className="text-[12px] text-[var(--ink-soft)]">
+                  <p className="text-[13px] text-[var(--ink-soft)]">
                     Your note: {run.marks[item.key].reason}
                   </p>
                 </>
@@ -143,12 +143,12 @@ export default function SummaryPage() {
           {/* Matching items */}
           {ready && matchingItems.length > 0 && (
             <div className="bg-[color-mix(in_srgb,var(--green)_15%,var(--surface))] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
-              <p className="text-[10px] font-semibold text-[var(--green)] uppercase">
+              <p className="text-[11px] font-semibold text-[var(--green)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
               </p>
               <div className="space-y-[3px]">
                 {matchingItems.map((item) => (
-                  <p key={item.key} className="text-[12px] font-medium text-[var(--ink)]">
+                  <p key={item.key} className="text-[13px] font-medium text-[var(--ink)]">
                     {item.label}
                   </p>
                 ))}
@@ -165,7 +165,7 @@ export default function SummaryPage() {
             </ActionButton>
 
             {/* Description — --surface on --red, 4.57:1 */}
-            <p className="w-full text-center text-[11px] text-[var(--surface)]">
+            <p className="w-full text-center text-[12px] text-[var(--surface)]">
               PDF with version and date will be created in English and Spanish
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function SummaryPage() {
           <button
             onClick={handleCopySummary}
             disabled={!ready}
-            className={`flex items-center justify-center py-[13px] rounded-[14px] text-[15px] font-serif font-semibold min-h-[44px] ${
+            className={`flex items-center justify-center py-[13px] rounded-[14px] text-[16px] font-serif font-semibold min-h-[44px] ${
               ready
                 ? 'bg-[var(--tint)] text-[var(--ink)] cursor-pointer'
                 : 'bg-[var(--chip-bg)] text-[var(--ink-soft)] cursor-not-allowed'
@@ -186,7 +186,7 @@ export default function SummaryPage() {
           {/* Back to records */}
           <Link
             href="/"
-            className="flex items-center justify-center py-[13px] border border-[var(--line)] rounded-[14px] text-[15px] font-medium text-[var(--blue)]"
+            className="flex items-center justify-center py-[13px] border border-[var(--line)] rounded-[14px] text-[16px] font-medium text-[var(--blue)]"
           >
             Back to records
           </Link>
