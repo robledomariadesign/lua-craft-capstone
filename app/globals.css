@@ -3,16 +3,15 @@
 :root {
   --paper:     #F8EFDE;
   --surface:   #FFFFFF;
-  --tint:      #f4f0e8;
-  --tint-deep: #ece9e2;
+  --tint:      #F1E7D3;
+  --tint-deep: #EAE0CB;
   --line:      #DCCFAE;
   --ink:       #2E2A22;
   --ink-soft:  #8A7F5E;
-  --ink-faint: #9e9c96;
-  --ink-micro: #6b6661;
-  --chip-bg:   #eceae6;
-  --chip-text: #5c5954;
-  --blue:      #6E7350;
+  --ink-faint: #A69B7C;
+  --chip-bg:   #EFE7D6;
+  --chip-text: #5A5340;
+  --blue:      #4A5578;
   --blue-tint: #DEE3F1;
   --green:     #6E7350;
   --red:       #C1543B;
