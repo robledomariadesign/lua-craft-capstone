@@ -140,9 +140,10 @@ export default function SummaryPage() {
             </div>
           ))}
 
-          {/* Matching items */}
+          {/* Matching items. #C7CEEA is used here and nowhere else: the periwinkle
+              panel needs an edge against the cream paper. */}
           {ready && matchingItems.length > 0 && (
-            <div className="bg-[color-mix(in_srgb,var(--green)_15%,var(--surface))] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
+            <div className="bg-[var(--blue-tint)] border border-[#C7CEEA] rounded-[12px] px-[14px] py-[11px] space-y-[6px]">
               <p className="text-[11px] font-semibold text-[var(--green)] uppercase">
                 ✓ Matching · {matchingItems.length} item{matchingItems.length === 1 ? '' : 's'}
               </p>
@@ -155,20 +156,6 @@ export default function SummaryPage() {
               </div>
             </div>
           )}
-
-          {/* Save button, inside the same terracotta island as the check
-              screen's action bar. -mx-[6px] pulls it out to the island's 10px
-              inset from the 16px content padding. */}
-          <div className="flex flex-col gap-2 rounded-[26px] bg-[var(--red)] px-[15px] pt-4 pb-[18px] -mx-[6px]">
-            <ActionButton variant={ready ? 'island' : 'island-disabled'} onClick={handleSaveSummary}>
-              Save summary to send
-            </ActionButton>
-
-            {/* Description — --surface on --red, 4.57:1 */}
-            <p className="w-full text-center text-[12px] text-[var(--surface)]">
-              PDF with version and date will be created in English and Spanish
-            </p>
-          </div>
 
           {/* Copy button */}
           <button
@@ -190,6 +177,25 @@ export default function SummaryPage() {
           >
             Back to records
           </Link>
+        </div>
+      </div>
+
+      {/* Action area — pinned below the scroll area, same island as the check
+          screen, so content scrolls behind it instead of carrying it below
+          the fold on a short viewport. */}
+      <div
+        className="shrink-0 px-[10px] pt-2"
+        style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}
+      >
+        <div className="flex flex-col gap-2 rounded-[26px] bg-[var(--red)] px-[15px] pt-4 pb-[18px]">
+          <ActionButton variant={ready ? 'island' : 'island-disabled'} onClick={handleSaveSummary}>
+            Save summary to send
+          </ActionButton>
+
+          {/* --surface on --red, 4.57:1 */}
+          <p className="w-full text-center text-[12px] text-[var(--surface)]">
+            PDF with version and date will be created in English and Spanish
+          </p>
         </div>
       </div>
     </PhoneShell>
