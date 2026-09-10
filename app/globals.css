@@ -5,14 +5,14 @@
   --surface:   #FFFFFF;
   --tint:      #F1E7D3;
   --tint-deep: #EAE0CB;
-  --line:      #DCCFAE;
+  --line:      #EDE3CE;
   --ink:       #2E2A22;
   --ink-soft:  #756A4B;
   --ink-faint: #756A4B;  /* same as --ink-soft; kept for the frozen /a /b tree */
   --ink-micro: #6b6661;
   --chip-bg:   #EFE7D6;
   --chip-text: #5A5340;
-  --blue:      #4A5578;
+  --blue:      #4C5FA8;
   --blue-tint: #DEE3F1;
   --green:     #6E7350;
   --red:       #C1543B;
