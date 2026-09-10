@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --paper:     #fcfaf6;
-  --surface:   #ffffff;
+  --paper:     #F8EFDE;
+  --surface:   #FFFFFF;
   --tint:      #f4f0e8;
   --tint-deep: #ece9e2;
-  --line:      #e5e0d6;
-  --ink:       #1c1c1f;
-  --ink-soft:  #736f66;
+  --line:      #DCCFAE;
+  --ink:       #2E2A22;
+  --ink-soft:  #8A7F5E;
   --ink-faint: #9e9c96;
   --ink-micro: #6b6661;
   --chip-bg:   #eceae6;
   --chip-text: #5c5954;
-  --blue:      #3478f6;
-  --blue-tint: #e1ebfe;
-  --green:     #27ae60;
-  --red:       #e53e32;
-  --red-tint:  #ffeae7;
+  --blue:      #6E7350;
+  --blue-tint: #DEE3F1;
+  --green:     #6E7350;
+  --red:       #C1543B;
+  --red-tint:  #F3DCD2;
 }
 
 html,
 body {
-  background: var(--paper);
+  background-color: var(--paper);
+  /* Linen texture: 1px hairlines every 4px, both axes. */
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(46,42,34,0.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(46,42,34,0.05) 0 1px, transparent 1px 4px);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
 }
@@ -69,7 +73,10 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(46,42,34,0.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(46,42,34,0.05) 0 1px, transparent 1px 4px);
   position: relative;
   overflow: hidden;
 }
